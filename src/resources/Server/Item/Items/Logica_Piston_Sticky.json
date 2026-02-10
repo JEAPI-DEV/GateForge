@@ -1,0 +1,53 @@
+{
+    "TranslationProperties": {
+        "Name": "Logica Sticky Piston"
+    },
+    "Categories": [
+        "Blocks.Mechanism"
+    ],
+    "BlockType": {
+        "Material": "Solid",
+        "DrawType": "Model",
+        "CustomModel": "Blocks/InteractiveBlocks/Piston/Piston.blockymodel",
+        "CustomModelTexture": [
+            {
+                "Texture": "Blocks/InteractiveBlocks/Piston/Piston_Sticky.png"
+            }
+        ],
+        "HitboxType": "Full",
+        "VariantRotation": "All",
+        "BlockParticleSetId": "Stone",
+        "BlockSoundSetId": "Stone",
+        "State": {
+            "Definitions": {
+                "Extended": {
+                    "CustomModel": "Blocks/InteractiveBlocks/Piston/PistonExtended.blockymodel",
+                    "CustomModelTexture": [
+                        {
+                            "Texture": "Blocks/InteractiveBlocks/Piston/Piston_Sticky.png"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "Icon": "Icons/Items/logica_piston_sticky.png",
+    "PlayerAnimationsId": "Block",
+    "MaxStack": 64,
+    "Recipe": {
+        "TimeSeconds": 0,
+        "OutputQuantity": 1,
+        "Input": [
+            { "ItemId": "logica_piston", "Quantity": 1 },
+            { "ItemId": "Ingredient_Tree_Sap", "Quantity": 1 }
+        ],
+        "BenchRequirement": [
+            {
+                "Type": "Crafting",
+                "Id": "Workbench",
+                "Categories": [ "Workbench_Tinkering" ],
+                "RequiredTierLevel": 1
+            }
+        ]
+    }
+}

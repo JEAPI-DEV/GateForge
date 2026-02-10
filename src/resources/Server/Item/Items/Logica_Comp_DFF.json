@@ -1,0 +1,50 @@
+{
+    "TranslationProperties": {
+        "Name": "Logica Component (DFF)"
+    },
+    "Categories": [
+        "Blocks.Mechanism"
+    ],
+    "BlockType": {
+        "Material": "Solid",
+        "DrawType": "Model",
+        "CustomModel": "Blocks/Logic/Comp/DFF/logica_comp_dff.blockymodel",
+        "CustomModelTexture": [
+            {
+                "Texture": "Blocks/Logic/Comp/DFF/logica_comp_dff.png"
+            }
+        ],
+        "HitboxType": "Block_Flat",
+        "VariantRotation": "NESW",
+        "BlockParticleSetId": "Stone",
+        "BlockSoundSetId": "Stone",
+        "Gathering": {
+            "Breaking": {
+                "GatherType": "SoftBlocks",
+                "ItemId": "logica_comp_dff"
+            }
+        }
+    },
+    "Icon": "Icons/Items/logica_comp_dff.png",
+    "PlayerAnimationsId": "Block",
+    "MaxStack": 64,
+    "ItemLevel": 10,
+    "Recipe": {
+        "TimeSeconds": 0,
+        "OutputQuantity": 1,
+        "Input": [
+            { "ItemId": "Ingredient_Bar_Copper", "Quantity": 2 },
+            { "ItemId": "Rock_Stone_Cobble", "Quantity": 2 },
+            { "ItemId": "Ingredient_Bar_Gold", "Quantity": 4 },
+            { "ItemId": "Ingredient_Fibre", "Quantity": 1 }
+        ],
+        "BenchRequirement": [
+            {
+                "Type": "Crafting",
+                "Id": "Workbench",
+                "Categories": [ "Workbench_Tinkering" ],
+                "RequiredTierLevel": 1
+            }
+        ]
+    }
+}

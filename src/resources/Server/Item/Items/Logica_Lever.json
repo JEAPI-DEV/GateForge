@@ -1,0 +1,85 @@
+{
+    "TranslationProperties": {
+        "Name": "Logica Lever"
+    },
+    "Categories": [
+        "Blocks.Mechanism"
+    ],
+    "InteractionConfig": {
+        "Priorities": {
+            "Secondary": {
+                "MainHand": 1,
+                "OffHand": -1
+            }
+        }
+    },
+    "BlockType": {
+        "Material": "Solid",
+        "DrawType": "Model",
+        "CustomModel": "Blocks/InteractiveBlocks/Lever/logica_lever_off.blockymodel",
+        "CustomModelTexture": [
+            {
+                "Texture": "Blocks/InteractiveBlocks/Lever/logica_lever.png"
+            }
+        ],
+        "HitboxType": "Block_Flat",
+        "BlockParticleSetId": "Stone",
+        "BlockSoundSetId": "Stone",
+        "VariantRotation": "DoublePipe",
+        "Flags": {
+            "IsUsable": true
+        },
+        "State": {
+            "Definitions": {
+                "Active": {
+                    "CustomModel": "Blocks/InteractiveBlocks/Lever/logica_lever_on.blockymodel",
+                    "CustomModelTexture": [
+                        {
+                            "Texture": "Blocks/InteractiveBlocks/Lever/logica_lever.png"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "Utility": {
+        "Usable": true
+    },
+    "Interactions": {
+        "Primary": "Block_Primary",
+        "Secondary": "Block_Secondary"
+    },
+    "Icon": "Icons/Items/logica_lever.png",
+    "PlayerAnimationsId": "Block",
+    "MaxStack": 64,
+    "IconProperties": {
+        "Scale": 0.58823,
+        "Rotation": [
+          22.5,
+          45,
+          22.5
+        ],
+        "Translation": [
+          0,
+          -13.5
+        ]
+      }
+    ,
+    "Recipe": {
+        "TimeSeconds": 0,
+        "OutputQuantity": 1,
+        "Input": [
+            { "ItemId": "Ingredient_Fibre", "Quantity": 1 },
+            { "ItemId": "Ingredient_Stick", "Quantity": 1 },
+            { "ItemId": "Rock_Stone_Cobble", "Quantity": 1 }
+        ],
+        "BenchRequirement": [
+            {
+                "Type": "Crafting",
+                "Id": "Workbench",
+                "Categories": [ "Triggers" ],
+                "RequiredTierLevel": 1
+            }
+        ]
+    }
+}

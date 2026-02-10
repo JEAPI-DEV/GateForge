@@ -1,0 +1,14 @@
+{
+  "Group": "com.logica",
+  "Name": "Logica",
+  "Version": "0.1.0",
+  "Description": "A redstone-like logic mod for Hytale",
+  "Authors": [{ "Name": "jeapi" }],
+  "Website": "https://github.com/jeapi/Logica",
+  "ServerVersion": "*",
+  "OptionalDependencies": {},
+  "DisabledByDefault": false,
+  "Main": "com.logica.LogicaMod",
+  "LoadOrder": "POSTWORLD",
+  "IncludesAssetPack": true
+}

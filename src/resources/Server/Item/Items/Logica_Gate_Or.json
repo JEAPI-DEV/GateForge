@@ -1,0 +1,48 @@
+{
+    "TranslationProperties": {
+        "Name": "Logica Gate (OR)"
+    },
+    "Categories": [
+        "Blocks.Mechanism"
+    ],
+    "BlockType": {
+        "Material": "Solid",
+        "DrawType": "Model",
+        "CustomModel": "Blocks/Logic/Gate/Or/logica_gate_or_SN.blockymodel",
+        "CustomModelTexture": [
+            {
+                "Texture": "Blocks/Logic/Gate/Or/logica_gate_or.png"
+            }
+        ],
+        "HitboxType": "Block_Flat",
+        "VariantRotation": "NESW",
+        "BlockParticleSetId": "Stone",
+        "BlockSoundSetId": "Stone",
+        "Gathering": {
+            "Breaking": {
+                "GatherType": "SoftBlocks",
+                "ItemId": "logica_gate_or"
+            }
+        }
+    },
+    "Icon": "Icons/Items/logica_gate_or.png",
+    "PlayerAnimationsId": "Block",
+    "MaxStack": 64,
+    "ItemLevel": 10,
+    "Recipe": {
+        "TimeSeconds": 0,
+        "OutputQuantity": 1,
+        "Input": [
+            { "ItemId": "Ingredient_Bar_Copper", "Quantity": 2 },
+            { "ItemId": "Rock_Stone_Cobble", "Quantity": 2 }
+        ],
+        "BenchRequirement": [
+            {
+                "Type": "Crafting",
+                "Id": "Workbench",
+                "Categories": [ "Workbench_Tinkering" ],
+                "RequiredTierLevel": 1
+            }
+        ]
+    }
+}

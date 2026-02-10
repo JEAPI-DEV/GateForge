@@ -1,0 +1,46 @@
+{
+    "TranslationProperties": {
+        "Name": "Logica Pressure Plate"
+    },
+    "Categories": [
+        "Blocks.Mechanism"
+    ],
+    "BlockType": {
+        "Material": "Solid",
+        "DrawType": "Model",
+        "CustomModel": "Blocks/InteractiveBlocks/PressurePlate/logica_pressure_plate.blockymodel",
+        "CustomModelTexture": [
+            {
+                "Texture": "Blocks/InteractiveBlocks/PressurePlate/logica_pressure_plate.png"
+            }
+        ],
+        "HitboxType": "Block_Flat",
+        "BlockParticleSetId": "Stone",
+        "BlockSoundSetId": "Stone",
+        "State": {
+            "Definitions": {
+                "Active": {
+                    "Translation": [0, -0.05, 0]
+                }
+            }
+        }
+    },
+    "Icon": "Icons/Items/logica_pressure_plate.png",
+    "PlayerAnimationsId": "Block",
+    "MaxStack": 64,
+    "Recipe": {
+        "TimeSeconds": 0,
+        "OutputQuantity": 1,
+        "Input": [
+            { "ItemId": "Rock_Stone_Cobble", "Quantity": 2 }
+        ],
+        "BenchRequirement": [
+            {
+                "Type": "Crafting",
+                "Id": "Workbench",
+                "Categories": [ "Workbench_Tinkering" ],
+                "RequiredTierLevel": 1
+            }
+        ]
+    }
+}

@@ -1,0 +1,61 @@
+{
+    "TranslationProperties": {
+        "Name": "Logica Lamp"
+    },
+    "Categories": [
+        "Blocks.Mechanism"
+    ],
+    "BlockType": {
+        "Material": "Solid",
+        "DrawType": "Model",
+        "CustomModel": "Blocks/InteractiveBlocks/Lamp/logica_lamp_off.blockymodel",
+        "CustomModelTexture": [
+            {
+                "Texture": "Blocks/InteractiveBlocks/Lamp/logica_lamp_off.png"
+            }
+        ],
+        "HitboxType": "Full",
+        "BlockParticleSetId": "Stone",
+        "BlockSoundSetId": "Stone",
+        "Light": {
+            "Radius": 0,
+            "Color": "#000000"
+        },
+        "State": {
+            "Definitions": {
+                "Active": {
+                    "Light": {
+                        "Radius": 15,
+                        "Color": "#FFFFFF"
+                    },
+                    "CustomModel": "Blocks/InteractiveBlocks/Lamp/logica_lamp_on.blockymodel",
+                    "CustomModelTexture": [
+                        {
+                            "Texture": "Blocks/InteractiveBlocks/Lamp/logica_lamp_on.png"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "Icon": "Icons/Items/logica_lamp_off.png",
+    "PlayerAnimationsId": "Block",
+    "MaxStack": 64,
+    "Recipe": {
+        "TimeSeconds": 0,
+        "OutputQuantity": 1,
+        "Input": [
+            { "ItemId": "Soil_Sand", "Quantity": 1 },
+            { "ItemId": "Ingredient_Bar_Copper", "Quantity": 1 },
+            { "ItemId": "Ingredient_Fibre", "Quantity": 1 }
+        ],
+        "BenchRequirement": [
+            {
+                "Type": "Crafting",
+                "Id": "Workbench",
+                "Categories": [ "Workbench_Tinkering" ],
+                "RequiredTierLevel": 1
+            }
+        ]
+    }
+}

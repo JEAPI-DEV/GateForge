@@ -1,0 +1,129 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'com.gradleup.shadow' version '8.3.0'
+}
+
+group = 'com.logica'
+version = '0.1.0'
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+}
+
+// Server JAR location - update this path if needed
+def serverJarPath = file('libs/HytaleServer.jar')
+def projectServerJar = file('server/HytaleServer.jar')
+def siblingServerJar = file('../server/HytaleServer.jar')
+
+dependencies {
+    // Use HytaleServer.jar from libs folder, or fallback to server folders
+    if (serverJarPath.exists()) {
+        compileOnly files(serverJarPath)
+        testImplementation files(serverJarPath)
+    } else if (projectServerJar.exists()) {
+        compileOnly files(projectServerJar)
+        testImplementation files(projectServerJar)
+    } else if (siblingServerJar.exists()) {
+        compileOnly files(siblingServerJar)
+        testImplementation files(siblingServerJar)
+    } else {
+        // If none exists, still reference libs for error message clarity
+        compileOnly files('libs/HytaleServer.jar')
+        testImplementation files('libs/HytaleServer.jar')
+    }
+    // JSR305 annotations (@Nonnull, @Nullable)
+    compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation fileTree(dir: 'libs', includes: ['*.jar'])
+    
+    // JUnit 5 for testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+    // Mockito for mocking
+    testImplementation 'org.mockito:mockito-core:5.21.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.21.0'
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty 'java.util.logging.manager', 'com.hypixel.hytale.logger.backend.HytaleLogManager'
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        showExceptions true
+        exceptionFormat "full"
+        showCauses true
+        showStackTraces true
+        showStandardStreams = true
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+shadowJar {
+    archiveClassifier.set('')
+    destinationDirectory = file('server/mods')
+    archiveFileName = 'Logica.jar'
+    // Exclude server classes from the final JAR
+    dependencies {
+        exclude(dependency { it.moduleGroup == 'com.hypixel' })
+    }
+}
+
+tasks.named('build') {
+    dependsOn shadowJar
+}
+
+// Task to copy server JAR to libs folder if not present
+tasks.register('copyServerJar') {
+    doLast {
+        def destJar = file('libs/HytaleServer.jar')
+        if (!destJar.exists()) {
+            def sources = [file('server/HytaleServer.jar'), file('../server/HytaleServer.jar')]
+            for (src in sources) {
+                if (src.exists()) {
+                    copy {
+                        from src
+                        into 'libs'
+                    }
+                    break
+                }
+            }
+        }
+    }
+}
+
+tasks.named('compileJava') {
+    dependsOn 'copyServerJar'
+}
+
+// Deploy plugin JAR to server mods folder
+tasks.register('deployToServer', Copy) {
+    // Using 'from shadowJar' automatically adds task dependency and proper input tracking
+    from shadowJar
+    into 'server/mods'
+    doLast {
+        println "Deployed to server/mods/"
+    }
+}
+
+// Watch for changes and auto-rebuild (useful during development)
+tasks.register('watch') {
+    doLast {
+        println "Watching for changes... Press Ctrl+C to stop."
+        println "Run 'gradle build --continuous' for auto-rebuild on file changes."
+    }
+}

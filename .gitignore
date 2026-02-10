@@ -1,0 +1,35 @@
+# Gradle
+.gradle/
+build/
+/server
+/decompiled
+/MediaRadio_Decompiled
+
+# Maven
+target/
+docs-cache/
+/libs
+/build
+
+.idea
+.vscode
+/bin
+/docs
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+
+# IDE - ignore most but keep run configurations
+.idea/*
+!.idea/runConfigurations/
+*.iml
+
+# Hytale
+libs/HytaleServer.jar
+server/mods/
+server/logs/
+server/world/
+plans/lever_interaction_analysis.md
+plans/lever_power_fix_plan.md
+.roo/mcp.json
+.continue/agents/new-config.yaml
