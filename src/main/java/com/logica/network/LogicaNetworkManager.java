@@ -20,7 +20,7 @@ public class LogicaNetworkManager implements LogicTicker {
     private static Deque<ILogicaComponent> updateDeque = new ArrayDeque<>();
 
     public static LogicaNetworkManager getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new LogicaNetworkManager();
             registry = new DefaultComponentRegistry();
         }
@@ -29,34 +29,43 @@ public class LogicaNetworkManager implements LogicTicker {
 
     @Override
     public void tick(World world) {
-        if (world == null) return;
-        if (updateDeque.isEmpty()) return;
+        if (world == null)
+            return;
+        if (updateDeque.isEmpty())
+            return;
 
         int processed = 0;
         int maxPerTick = 512;
-        while (!updateDeque.isEmpty() && processed < maxPerTick) {
+        int initialSize = updateDeque.size();
+        int toProcess = Math.min(initialSize, maxPerTick);
+
+        while (processed < toProcess) {
             ILogicaComponent comp = updateDeque.poll();
-            if (comp == null) continue;
+            if (comp == null)
+                break;
+            if (!storage.contains(comp))
+                continue;
             comp.updateOutput(world, null);
             processed++;
-        }
-        if (processed > 0) {
-            LOG.atInfo().log("[Logica][NM] Tick processed %d updates (remaining=%d)", processed, updateDeque.size());
         }
     }
 
     public ILogicaComponent createComponentForId(Vector3i pos, String blockId, World world) {
-        if (pos == null) return null;
+        if (pos == null)
+            return null;
 
         LogicaConstants.BlockId resolvedId = LogicaConstants.BlockId.from(blockId);
-        if (resolvedId == null) return null;
+        if (resolvedId == null)
+            return null;
 
         // defensive avoidance of creating components that already exist
         ILogicaComponent testIfExists = getComponentAt(pos);
-        if(testIfExists != null) return testIfExists;
+        if (testIfExists != null)
+            return testIfExists;
 
         ILogicaComponent comp = registry.create(resolvedId, pos, world);
-        if(comp == null) return null;
+        if (comp == null)
+            return null;
         storage.add(comp);
         LOG.atInfo().log("[Logica][NM] Created/Recovered " + comp.getClass().getSimpleName() + " at " + pos);
         comp.onRecover(world);
@@ -66,23 +75,34 @@ public class LogicaNetworkManager implements LogicTicker {
     }
 
     public void removeComponent(ILogicaComponent comp) {
-        if (comp == null) return;
+        if (comp == null)
+            return;
         storage.remove(comp);
+        unqueue(comp);
     }
 
-    public void enqueueUpdate(ILogicaComponent comp){
-        if (comp != null && comp.getClass().getSimpleName().equalsIgnoreCase("Lamp")) {
-            LOG.atInfo().log("[Logica][NM] Enqueued Lamp update at %s", comp.getPosition());
+    public void enqueueUpdate(ILogicaComponent comp) {
+        if (comp != null && !updateDeque.contains(comp)) {
+            if (comp.getClass().getSimpleName().equalsIgnoreCase("Lamp")) {
+                // Log stack trace to find who is enqueuing the Lamp
+                StringBuilder sb = new StringBuilder();
+                for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+                    if (ste.getClassName().contains("com.logica")) {
+                        sb.append("\n\t at ").append(ste);
+                    }
+                }
+                LOG.atInfo().log("[Logica][NM] Enqueued Lamp update at %s from: %s", comp.getPosition(), sb.toString());
+            }
+            updateDeque.add(comp);
         }
-        updateDeque.add(comp);
     }
 
     public void unqueue(ILogicaComponent delist) {
         updateDeque.stream().filter(comp -> comp == delist).forEach(comp -> updateDeque.remove(comp));
     }
 
-    public ILogicaComponent getComponentAt(Vector3i pos){
-        for (ILogicaComponent comp : storage){
+    public ILogicaComponent getComponentAt(Vector3i pos) {
+        for (ILogicaComponent comp : storage) {
             Vector3i compPos = comp.getPosition();
             if (compPos != null && pos != null
                     && compPos.x == pos.x
@@ -94,7 +114,7 @@ public class LogicaNetworkManager implements LogicTicker {
         return null;
     }
 
-    public boolean doesComponentExist(ILogicaComponent comp){
+    public boolean doesComponentExist(ILogicaComponent comp) {
         return storage.contains(comp);
     }
 

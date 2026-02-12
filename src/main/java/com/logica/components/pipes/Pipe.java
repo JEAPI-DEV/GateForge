@@ -56,7 +56,6 @@ public class Pipe extends Connector {
             super.updateOutput(world, caller);
             handleDiagonalUpdate(world, caller);
         }
-        updateShape(world);
     }
 
     private void refreshAllSources(World world) {
