@@ -1,10 +1,9 @@
 package com.logica.utils;
 
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.logica.components.core.NetComp;
+
 import com.logica.components.misc.ComponentState;
 import com.logica.vars.LogicaConstants;
 import com.logica.workarounds.LogicaBlockAccessor;
@@ -38,13 +37,15 @@ public class NetCompHelper {
                         blockType,
                         state.rotation(),
                         0, 198);
-                if (!updated) return;
+                if (!updated)
+                    return;
                 try {
                     world.performBlockUpdate(pos.getX(), pos.getY(), pos.getZ());
-                } catch (Throwable ignored) { }
+                } catch (Throwable ignored) {
+                }
             }
         } catch (Exception e) {
-            HytaleLogger.getLogger().atWarning().log("[Logica][Gate] Error in BlockState Handler: " + e);
+            LogicaLogger.warn("[Logica][Gate] Error in BlockState Handler: " + e);
         }
     }
 }

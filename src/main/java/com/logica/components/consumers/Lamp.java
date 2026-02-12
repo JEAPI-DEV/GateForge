@@ -1,6 +1,6 @@
 package com.logica.components.consumers;
 
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -25,7 +25,7 @@ public class Lamp extends Consumer {
     @Override
     protected void calculateNewState(World world, com.logica.components.core.NetComp caller) {
         boolean shouldBeActive = isPowered(world);
-        HytaleLogger.getLogger().atInfo().log(
+        LogicaLogger.debug(
                 "[Logica][LampDebug] calc pos=%s sources=%d shouldBeActive=%s",
                 getPosition(), state.activeSources().size(), shouldBeActive);
         applyStateChange(world, shouldBeActive);

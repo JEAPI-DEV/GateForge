@@ -1,6 +1,6 @@
 package com.logica.components.gate;
 
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -28,16 +28,16 @@ public abstract class Gate extends NetComp {
         super(position);
     }
 
-//    public List<Vector3i> getConnections(World world) {
-//        List<Vector3i> connections = new ArrayList<>();
-//        LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
-//        for (Vector3i neighborPos : NeighborScanner.sixWay(getPosition())) {
-//            ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
-//            if (neighbor != null)
-//                connections.add(neighborPos);
-//        }
-//        return connections;
-//    }
+    // public List<Vector3i> getConnections(World world) {
+    // List<Vector3i> connections = new ArrayList<>();
+    // LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
+    // for (Vector3i neighborPos : NeighborScanner.sixWay(getPosition())) {
+    // ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
+    // if (neighbor != null)
+    // connections.add(neighborPos);
+    // }
+    // return connections;
+    // }
 
     protected void setStrategy(LogicStrategy strategy) {
         this.strategy = strategy;
@@ -56,12 +56,12 @@ public abstract class Gate extends NetComp {
         // Efficient state update using existing object
         this.state.setOn(shouldBeActive);
         if (previous != shouldBeActive) {
-        Vector3i outputDir = getOutputDirection();
-        Vector3i outputPos = new Vector3i(getPosition().x + outputDir.x,
-            getPosition().y + outputDir.y,
-            getPosition().z + outputDir.z);
-        HytaleLogger.getLogger().atInfo().log("[Logica][Gate] %s state=%s outputDir=%s outputPos=%s",
-            getClass().getSimpleName(), shouldBeActive, outputDir, outputPos);
+            Vector3i outputDir = getOutputDirection();
+            Vector3i outputPos = new Vector3i(getPosition().x + outputDir.x,
+                    getPosition().y + outputDir.y,
+                    getPosition().z + outputDir.z);
+            LogicaLogger.debug("[Logica][Gate] %s state=%s outputDir=%s outputPos=%s",
+                    getClass().getSimpleName(), shouldBeActive, outputDir, outputPos);
             notifyNeighbors(world);
         }
     }
@@ -103,24 +103,27 @@ public abstract class Gate extends NetComp {
                     getPosition().z + dir.z);
             BlockType bt = world.getBlockType(outputBlock);
 
-            if (!NetCompHelper.isBlockSolid(bt) || LogicaConstants.isLogicaBlock(bt.getId())) return;
+            if (!NetCompHelper.isBlockSolid(bt) || LogicaConstants.isLogicaBlock(bt.getId()))
+                return;
 
             LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
             for (Vector3i target : NeighborScanner.sixWay(outputBlock)) {
-                if (target.equals(getPosition())) continue;
+                if (target.equals(getPosition()))
+                    continue;
 
                 BlockType t = world.getBlockType(target);
-                if (!LogicaConstants.isLogicaComponent(t)) continue;
+                if (!LogicaConstants.isLogicaComponent(t))
+                    continue;
 
                 ILogicaComponent neighbor = nm.getComponentAt(target);
-                if (neighbor == null) neighbor = nm.createComponentForId(target, t.getId(), world);
+                if (neighbor == null)
+                    neighbor = nm.createComponentForId(target, t.getId(), world);
 
                 if (neighbor != null)
                     nm.enqueueUpdate(neighbor);
             }
         } catch (Exception e) {
-            HytaleLogger.getLogger().atWarning()
-                    .log("[Logica][Gate] notifyNeighbors output-face propagation failed: %s", e);
+            LogicaLogger.warn("[Logica][Gate] notifyNeighbors output-face propagation failed: %s", e);
         }
     }
 
@@ -138,7 +141,7 @@ public abstract class Gate extends NetComp {
         Vector3i outputPos = new Vector3i(getPosition().x + outputDir.x,
                 getPosition().y + outputDir.y,
                 getPosition().z + outputDir.z);
-        HytaleLogger.getLogger().atInfo().log(
+        LogicaLogger.debug(
                 "[Logica][GateDebug] %s isProvidingPowerTo pos=%s neighbor=%s rot=%d outputDir=%s outputPos=%s",
                 getClass().getSimpleName(), getPosition(), neighborPos, state.rotation(),
                 outputDir, outputPos);
@@ -162,14 +165,14 @@ public abstract class Gate extends NetComp {
 
     @Override
     public List<Vector3i> getOutputs(World world) {
-    Vector3i outputDir = getOutputDirection();
-    Vector3i outputPos = new Vector3i(getPosition().x + outputDir.x,
-        getPosition().y + outputDir.y,
-        getPosition().z + outputDir.z);
-        HytaleLogger.getLogger().atInfo().log(
+        Vector3i outputDir = getOutputDirection();
+        Vector3i outputPos = new Vector3i(getPosition().x + outputDir.x,
+                getPosition().y + outputDir.y,
+                getPosition().z + outputDir.z);
+        LogicaLogger.debug(
                 "[Logica][GateDebug] %s getOutputs pos=%s rot=%d outputDir=%s outputPos=%s",
                 getClass().getSimpleName(), getPosition(), state.rotation(),
-        outputDir, outputPos);
+                outputDir, outputPos);
         return List.of(outputPos);
     }
 
@@ -194,10 +197,11 @@ public abstract class Gate extends NetComp {
                 int rot = accessor.getRotationIndex(getPosition());
                 this.state = state.withRotation(rot);
                 Orientation worldFacing = Orientation.fromRotationIndex(rot);
-                HytaleLogger.getLogger().atInfo().log("[Logica][Gate] %s rotation=%d facing=%s pos=%s",
+                LogicaLogger.info("[Logica][Gate] %s rotation=%d facing=%s pos=%s",
                         getClass().getSimpleName(), rot, worldFacing, getPosition());
             }
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
     }
 
     public List<Boolean> calculateLogicInputs(World world) {
@@ -242,7 +246,8 @@ public abstract class Gate extends NetComp {
      */
     @Override
     public List<Vector3i> getInputs(World world) {
-        // TODO: implement strong-power-aware input positions when block-through rules are finalized.
+        // TODO: implement strong-power-aware input positions when block-through rules
+        // are finalized.
         return new ArrayList<>();
     }
 

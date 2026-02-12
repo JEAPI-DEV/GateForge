@@ -1,6 +1,6 @@
 package com.logica;
 
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
@@ -18,7 +18,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class LogicaMod extends JavaPlugin {
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
     private static LogicaMod instance;
     private LogicaEventListener eventListener;
@@ -26,7 +26,7 @@ public class LogicaMod extends JavaPlugin {
     public LogicaMod(@Nonnull JavaPluginInit init) {
         super(init);
         instance = this;
-        LOGGER.atInfo().log("Logica mod loaded!");
+        LogicaLogger.info("Logica mod loaded!");
     }
 
     public static LogicaMod getInstance() {
@@ -39,6 +39,7 @@ public class LogicaMod extends JavaPlugin {
 
     @Override
     protected void setup() {
+        LogicaLogger.setDebug(false);
         try {
             registerEvents();
             PlayerInteractLib playerInteractLib = new PlayerInteractLib();
@@ -54,9 +55,9 @@ public class LogicaMod extends JavaPlugin {
             LogicaLogicTicker logicTicker = new LogicaLogicTicker();
             getScheduler().scheduleAtFixedRate(logicTicker, 0L, 50L, TimeUnit.MILLISECONDS);
 
-            LOGGER.atInfo().log("Logica mod setup complete!");
+            LogicaLogger.info("Logica mod setup complete!");
         } catch (Exception e) {
-            LOGGER.atWarning().log("Failed to setup Logica mod: " + e.getMessage());
+            LogicaLogger.warn("Failed to setup Logica mod: " + e.getMessage());
         }
     }
 
@@ -66,9 +67,9 @@ public class LogicaMod extends JavaPlugin {
             EntityModule.get().getEntityStoreRegistry().registerSystem(new LogicaPlaceEventSystem());
             EntityModule.get().getEntityStoreRegistry().registerSystem(new LogicaBreakEventSystem());
             EntityModule.get().getEntityStoreRegistry().registerSystem(new LogicaInteractEventSystem());
-            LOGGER.atInfo().log("[Logica] Event systems registered via EntityModule");
+            LogicaLogger.info("[Logica] Event systems registered via EntityModule");
         } catch (Exception e) {
-            LOGGER.atWarning().log("Failed to register event system: " + e.getMessage());
+            LogicaLogger.warn("Failed to register event system: " + e.getMessage());
         }
     }
 

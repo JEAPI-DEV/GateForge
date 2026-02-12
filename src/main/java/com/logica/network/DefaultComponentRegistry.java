@@ -1,6 +1,6 @@
 package com.logica.network;
 
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.consumers.Lamp;
@@ -30,7 +30,7 @@ import com.logica.vars.LogicaConstants.BlockId;
  * Default registry mapping BlockId -> component factory.
  */
 public class DefaultComponentRegistry implements ComponentRegistry {
-    private static final HytaleLogger LOG = HytaleLogger.getLogger();
+
     private final Map<LogicaConstants.BlockId, BiFunction<Vector3i, World, ILogicaComponent>> registry = new ConcurrentHashMap<>();
 
     public DefaultComponentRegistry() {
@@ -71,7 +71,7 @@ public class DefaultComponentRegistry implements ComponentRegistry {
     public ILogicaComponent create(BlockId blockId, Vector3i pos, World world) {
         BiFunction<Vector3i, World, ILogicaComponent> factory = resolve(blockId);
         if (factory == null) {
-            LOG.atWarning().log("[Logica][Registry] No factory for blockId %s", blockId);
+            LogicaLogger.warn("[Logica][Registry] No factory for blockId %s", blockId);
             return null;
         }
         return factory.apply(pos, world);

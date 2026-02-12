@@ -6,7 +6,7 @@ import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent;
@@ -41,15 +41,14 @@ public class LogicaBreakEventSystem extends EntityEventSystem<EntityStore, Break
 
             if (LogicaConstants.isLogicaComponent(bt)) {
                 world.execute(() -> {
-                    HytaleLogger.getLogger().atInfo()
-                            .log("[Logica] Block broken: " + id + " at (" + x + ", " + y + ", " + z + ")");
+                    LogicaLogger.debug("[Logica] Block broken: " + id + " at (" + x + ", " + y + ", " + z + ")");
                     LogicaEventListener listener = LogicaMod.getInstance().getEventListener();
                     if (listener != null)
                         listener.onBlockBreak(world, targetPos);
                 });
             }
         } catch (Exception e) {
-            HytaleLogger.getLogger().atWarning().log("Error happened in BreakEventSystem: " + e);
+            LogicaLogger.warn("Error happened in BreakEventSystem: " + e);
         }
     }
 

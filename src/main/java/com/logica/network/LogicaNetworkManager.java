@@ -1,6 +1,6 @@
 package com.logica.network;
 
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.core.ILogicaComponent;
@@ -13,7 +13,7 @@ import java.util.Deque;
 import java.util.List;
 
 public class LogicaNetworkManager implements LogicTicker {
-    private static final HytaleLogger LOG = HytaleLogger.getLogger();
+
     private static LogicaNetworkManager instance;
     private static ComponentRegistry registry;
     private static List<ILogicaComponent> storage = new ArrayList<>();
@@ -67,7 +67,7 @@ public class LogicaNetworkManager implements LogicTicker {
         if (comp == null)
             return null;
         storage.add(comp);
-        LOG.atInfo().log("[Logica][NM] Created/Recovered " + comp.getClass().getSimpleName() + " at " + pos);
+        LogicaLogger.info("[Logica][NM] Created/Recovered " + comp.getClass().getSimpleName() + " at " + pos);
         comp.onRecover(world);
         comp.onPlace(world);
         enqueueUpdate(comp);
@@ -84,14 +84,7 @@ public class LogicaNetworkManager implements LogicTicker {
     public void enqueueUpdate(ILogicaComponent comp) {
         if (comp != null && !updateDeque.contains(comp)) {
             if (comp.getClass().getSimpleName().equalsIgnoreCase("Lamp")) {
-                // Log stack trace to find who is enqueuing the Lamp
-                StringBuilder sb = new StringBuilder();
-                for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
-                    if (ste.getClassName().contains("com.logica")) {
-                        sb.append("\n\t at ").append(ste);
-                    }
-                }
-                LOG.atInfo().log("[Logica][NM] Enqueued Lamp update at %s from: %s", comp.getPosition(), sb.toString());
+                LogicaLogger.debug("[Logica][NM] Enqueued Lamp update at %s", comp.getPosition());
             }
             updateDeque.add(comp);
         }

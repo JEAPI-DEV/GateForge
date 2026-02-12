@@ -1,6 +1,6 @@
 package com.logica.components.managers;
 
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Transform;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
@@ -23,7 +23,6 @@ import java.util.*;
  */
 public class LogicaPressurePlateManager implements Runnable {
 
-    private static final HytaleLogger LOG = HytaleLogger.getLogger();
     private static final long DEBOUNCE_MS = 150L;
 
     private final Set<UUID> playersOnPlate = new HashSet<>();
@@ -76,7 +75,8 @@ public class LogicaPressurePlateManager implements Runnable {
                                 if (bt == null)
                                     continue;
                                 String id = bt.getId();
-                                if (LogicaConstants.BlockId.from(id) == LogicaConstants.BlockId.PROVIDER_PRESSURE_PLATE) {
+                                if (LogicaConstants.BlockId
+                                        .from(id) == LogicaConstants.BlockId.PROVIDER_PRESSURE_PLATE) {
                                     foundType = bt;
                                     foundPos = new Vector3i(bx, by, bz);
                                     break outer;
@@ -139,7 +139,7 @@ public class LogicaPressurePlateManager implements Runnable {
                 }
 
             } catch (Exception ex) {
-                LOG.atSevere().log("[Logica][Plate] Error in run: %s", ex.toString());
+                LogicaLogger.error("[Logica][Plate] Error in run: %s", ex.toString());
             }
         });
     }
@@ -154,21 +154,25 @@ public class LogicaPressurePlateManager implements Runnable {
                 return;
             LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
             ILogicaComponent comp = nm.getComponentAt(pos);
-            if (comp == null) comp = nm.createComponentForId(pos, plateType.getId(), world);
-            if (comp instanceof PowerProvider pp) pp.updateOutput(world, true);
+            if (comp == null)
+                comp = nm.createComponentForId(pos, plateType.getId(), world);
+            if (comp instanceof PowerProvider pp)
+                pp.updateOutput(world, true);
         } catch (Exception e) {
-            LOG.atWarning().log("[Logica][Plate] Failed to activate at %s : %s", pos, e.toString());
+            LogicaLogger.warn("[Logica][Plate] Failed to activate at %s : %s", pos, e.toString());
         }
     }
 
     private void deactivatePlate(Vector3i pos, World world) {
         try {
-            if (pos == null || world == null) return;
+            if (pos == null || world == null)
+                return;
             LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
             ILogicaComponent comp = nm.getComponentAt(pos);
-            if (comp instanceof PowerProvider pp) pp.updateOutput(world, false);
+            if (comp instanceof PowerProvider pp)
+                pp.updateOutput(world, false);
         } catch (Exception e) {
-            LOG.atWarning().log("[Logica][Plate] Failed to deactivate at %s : %s", pos, e.toString());
+            LogicaLogger.warn("[Logica][Plate] Failed to deactivate at %s : %s", pos, e.toString());
         }
     }
 }

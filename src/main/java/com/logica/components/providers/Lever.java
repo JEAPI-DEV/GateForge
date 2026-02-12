@@ -1,6 +1,6 @@
 package com.logica.components.providers;
 
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -21,7 +21,6 @@ import java.util.List;
  * Manually toggled power source.
  */
 public class Lever extends PowerProvider {
-    private static final HytaleLogger LOG = HytaleLogger.getLogger();
 
     public Lever(Vector3i position) {
         super(position);
@@ -51,7 +50,7 @@ public class Lever extends PowerProvider {
                 world.performBlockUpdate(getPosition().getX(), getPosition().getY(), getPosition().getZ());
             }
         } catch (Exception e) {
-            LOG.atWarning().log("[Logica][Lever] Error updating block state: " + e.getMessage());
+            LogicaLogger.warn("[Logica][Lever] Error updating block state: " + e.getMessage());
         }
     }
 
@@ -111,8 +110,6 @@ public class Lever extends PowerProvider {
         return NeighborScanner.sixWay(getPosition());
     }
 
-
-
     @Override
     public void onRecover(World world) {
         try {
@@ -120,9 +117,10 @@ public class Lever extends PowerProvider {
             if (accessor != null) {
                 int rot = accessor.getRotationIndex(getPosition());
                 this.state = state.withRotation(rot);
-                HytaleLogger.getLogger().atInfo().log("[Logica][Lever] rotation=%d facing=%s pos=%s",
+                LogicaLogger.info("[Logica][Lever] rotation=%d facing=%s pos=%s",
                         rot, Orientation.fromRotationIndex(rot), getPosition());
             }
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
     }
 }

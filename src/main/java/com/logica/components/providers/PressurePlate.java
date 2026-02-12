@@ -1,6 +1,8 @@
 package com.logica.components.providers;
 
+import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
+
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.core.NeighborScanner;
 import com.logica.components.core.NetComp;
@@ -52,10 +54,11 @@ public class PressurePlate extends PowerProvider {
             if (accessor != null) {
                 int rot = accessor.getRotationIndex(getPosition());
                 this.state = state.withRotation(rot);
-                com.hypixel.hytale.logger.HytaleLogger.getLogger().atInfo().log(
+                LogicaLogger.info(
                         "[Logica][PressurePlate] rotation=%d facing=%s pos=%s",
                         rot, com.logica.vars.Orientation.fromRotationIndex(rot), getPosition());
             }
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.logica.components.pipes.strategies;
 
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.logica.components.core.PipeConnectionContext;
 import com.logica.components.pipes.PipeShape;
 import com.logica.components.pipes.PipeShapeStrategy;
@@ -36,7 +36,7 @@ public class ThreeWayStrategy implements PipeShapeStrategy {
             rotation = 3;
 
         // 3. Calculate Base Shape & State (with internal post-processing)
-        HytaleLogger.getLogger().atInfo().log(
+        LogicaLogger.debug(
                 "[Logica][ContexThreeWayStrategy]: H(N:%b S:%b E:%b W:%b) V(N:%b S:%b E:%b W:%b)",
                 context.n, context.s, context.e, context.w,
                 context.vn, context.vs, context.ve, context.vw);

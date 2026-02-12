@@ -5,7 +5,7 @@ import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.ecs.UseBlockEvent;
@@ -29,12 +29,13 @@ public class LogicaInteractEventSystem extends EntityEventSystem<EntityStore, Us
     public void handle(int index, @Nonnull ArchetypeChunk<EntityStore> archetypeChunk,
             @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer,
             @Nonnull UseBlockEvent.Pre event) {
-        HytaleLogger.getLogger().atWarning().log("Called InteractEventHandler");
+        LogicaLogger.debug("Called InteractEventHandler");
         try {
             if (LogicaConstants.isLogicaComponent(event.getBlockType())) {
                 Vector3i targetPos = event.getTargetBlock();
                 World world = Universe.get().getDefaultWorld();
-                if (world == null) return;
+                if (world == null)
+                    return;
 
                 world.execute(() -> {
                     LogicaNetworkManager nm = LogicaNetworkManager
@@ -42,14 +43,13 @@ public class LogicaInteractEventSystem extends EntityEventSystem<EntityStore, Us
                     ILogicaComponent comp = nm.getComponentAt(targetPos);
 
                     if (comp != null) {
-                        HytaleLogger.getLogger().atInfo()
-                                .log("[Logica] Interaction with " + comp.getClass().getSimpleName());
+                        LogicaLogger.debug("[Logica] Interaction with " + comp.getClass().getSimpleName());
                         comp.onInteract(world);
                     }
                 });
             }
         } catch (Exception e) {
-            HytaleLogger.getLogger().atWarning().log("Exception happened at InteractEventSystem: " + e);
+            LogicaLogger.warn("Exception happened at InteractEventSystem: " + e);
         }
     }
 

@@ -230,7 +230,7 @@ public class Pipe extends Connector {
 
     @Override
     public void onRecover(World world) {
-        com.hypixel.hytale.logger.HytaleLogger.getLogger().atInfo().log(
+        com.logica.utils.LogicaLogger.info(
                 "[Logica][Pipe] rotation=%d facing=%s pos=%s",
                 state.rotation(), com.logica.vars.Orientation.fromRotationIndex(state.rotation()), getPosition());
         updateShape(world);

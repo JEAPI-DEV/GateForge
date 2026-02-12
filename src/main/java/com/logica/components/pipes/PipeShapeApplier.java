@@ -1,6 +1,6 @@
 package com.logica.components.pipes;
 
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -11,13 +11,13 @@ import com.logica.workarounds.LogicaBlockAccessor;
  * Applies computed pipe shapes to the world, handling rotation/state updates.
  */
 public final class PipeShapeApplier {
-    private static final HytaleLogger LOG = HytaleLogger.getLogger();
 
     private PipeShapeApplier() {
     }
 
     /**
-     * Apply the given shape result to the world. Returns true if the block was updated.
+     * Apply the given shape result to the world. Returns true if the block was
+     * updated.
      */
     public static boolean apply(World world, Vector3i position, ShapeResult result) {
         try {
@@ -27,7 +27,7 @@ public final class PipeShapeApplier {
 
             BlockType stateType = baseType.getBlockForState(result.getState());
             if (stateType == null) {
-                LOG.atWarning().log("[Logica][Pipe] No stateType for %s state=%s", position, result.getState());
+                LogicaLogger.warn("[Logica][Pipe] No stateType for %s state=%s", position, result.getState());
                 return false;
             }
 
@@ -41,12 +41,12 @@ public final class PipeShapeApplier {
                     world.performBlockUpdate(position.getX(), position.getY(), position.getZ());
                 } catch (Throwable ignored) {
                 }
-                LOG.atInfo().log("[Logica][Pipe] Physically updated %s to %s (rot:%d)", position, result.getState(),
+                LogicaLogger.debug("[Logica][Pipe] Physically updated %s to %s (rot:%d)", position, result.getState(),
                         engineRotation);
                 return true;
             }
         } catch (Exception ex) {
-            LOG.atWarning().log("Error updating pipe shape: " + ex);
+            LogicaLogger.warn("Error updating pipe shape: " + ex);
         }
         return false;
     }

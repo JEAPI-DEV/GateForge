@@ -1,6 +1,6 @@
 package com.logica.components.core;
 
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -47,8 +47,7 @@ public abstract class NetComp implements ILogicaComponent {
         Vector3i delta = new Vector3i(
                 caller.getPosition().x - getPosition().x,
                 caller.getPosition().y - getPosition().y,
-                caller.getPosition().z - getPosition().z
-        );
+                caller.getPosition().z - getPosition().z);
         Orientation callersDirection = Orientation.fromDirection(delta);
         if (callersDirection == null)
             return;
@@ -76,7 +75,7 @@ public abstract class NetComp implements ILogicaComponent {
 
         boolean logLamp = getClass().getSimpleName().equalsIgnoreCase("Lamp");
         if (logLamp) {
-            HytaleLogger.getLogger().atInfo().log("[Logica][LampDebug] Refresh sources for %s", getPosition());
+            LogicaLogger.debug("[Logica][LampDebug] Refresh sources for %s", getPosition());
         }
 
         for (Orientation orientation : Orientation.ALL) {
@@ -97,7 +96,7 @@ public abstract class NetComp implements ILogicaComponent {
                 boolean providing = netComp.isActive() && netComp.isProvidingPowerTo(getPosition());
                 boolean accepts = canAcceptInputFrom(neighborPos, orientation);
                 if (logLamp && providing) {
-                    HytaleLogger.getLogger().atInfo().log(
+                    LogicaLogger.debug(
                             "[Logica][LampDebug] source=%s pos=%s dir=%s active=%s provides=%s accepts=%s",
                             netComp.getClass().getSimpleName(), neighborPos, orientation, netComp.isActive(),
                             providing, accepts);
@@ -108,16 +107,16 @@ public abstract class NetComp implements ILogicaComponent {
             }
         }
 
-    boolean oldOn = state.isOn();
-    state.setActiveSources(newSources);
-    calculateNewState(world, null);
-    boolean sourcesChanged = !oldSources.equals(newSources);
-    boolean stateChanged = oldOn != state.isOn();
-    if (sourcesChanged || stateChanged) {
-        notifyNeighbors(world);
-        HytaleLogger.getLogger().atInfo().log("[Logica][NetComp] %s sources=%d pos=%s",
-            getClass().getSimpleName(), newSources.size(), getPosition());
-    }
+        boolean oldOn = state.isOn();
+        state.setActiveSources(newSources);
+        calculateNewState(world, null);
+        boolean sourcesChanged = !oldSources.equals(newSources);
+        boolean stateChanged = oldOn != state.isOn();
+        if (sourcesChanged || stateChanged) {
+            notifyNeighbors(world);
+            LogicaLogger.info("[Logica][NetComp] %s sources=%d pos=%s",
+                    getClass().getSimpleName(), newSources.size(), getPosition());
+        }
     }
 
     protected abstract void calculateNewState(World world, NetComp caller);
@@ -144,14 +143,14 @@ public abstract class NetComp implements ILogicaComponent {
         LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
         for (Orientation orientation : Orientation.ALL) {
             Vector3i offset = orientation.getDirection();
-        Vector3i neighborPos = new Vector3i(getPosition().x + offset.x,
-            getPosition().y + offset.y,
-            getPosition().z + offset.z);
+            Vector3i neighborPos = new Vector3i(getPosition().x + offset.x,
+                    getPosition().y + offset.y,
+                    getPosition().z + offset.z);
 
-        BlockType bt = world.getBlockType(neighborPos);
+            BlockType bt = world.getBlockType(neighborPos);
 
-        HytaleLogger.getLogger().atInfo().log("Notifying neighbor at position: " + neighborPos
-            + " direction: " + orientation + " (world-space)");
+            LogicaLogger.debug("Notifying neighbor at position: " + neighborPos
+                    + " direction: " + orientation + " (world-space)");
 
             if (LogicaConstants.isLogicaComponent(bt)) {
                 ILogicaComponent neighbor = nm.getComponentAt(neighborPos);

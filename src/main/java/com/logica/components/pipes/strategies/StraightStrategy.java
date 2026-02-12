@@ -1,6 +1,6 @@
 package com.logica.components.pipes.strategies;
 
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.logica.components.core.PipeConnectionContext;
 import com.logica.components.pipes.PipeShape;
 import com.logica.components.pipes.PipeShapeStrategy;
@@ -8,7 +8,6 @@ import com.logica.components.pipes.ShapeResult;
 import com.logica.vars.Orientation;
 
 public class StraightStrategy implements PipeShapeStrategy {
-    private static final HytaleLogger LOG = HytaleLogger.getLogger();
 
     @Override
     public boolean matches(PipeConnectionContext context) {
@@ -32,13 +31,13 @@ public class StraightStrategy implements PipeShapeStrategy {
             rotation = (context.e || context.w) ? 1 : 0;
         }
 
-        HytaleLogger.getLogger().atWarning().log("Using Straight Strategy");
-//        if(rotation == 1 && context.vw) {
-//            rotation = 3;
-//        }
-//        if(rotation == 0 && context.ve) {
-//            rotation = 2;
-//        }
+        LogicaLogger.debug("Using Straight Strategy");
+        // if(rotation == 1 && context.vw) {
+        // rotation = 3;
+        // }
+        // if(rotation == 0 && context.ve) {
+        // rotation = 2;
+        // }
 
         java.util.Set<Orientation> relative = context.getRelativeVerticals(rotation);
         boolean localVN = relative.contains(Orientation.NORTH);
@@ -50,7 +49,7 @@ public class StraightStrategy implements PipeShapeStrategy {
             rotation = (rotation == 0) ? 2 : 3;
             localVN = true;
             localVS = false;
-            LOG.atInfo().log("[Logica][Pipe] Normalizing Straight: rot %d -> %d", oldRot, rotation);
+            LogicaLogger.debug("[Logica][Pipe] Normalizing Straight: rot %d -> %d", oldRot, rotation);
         }
 
         ShapeResult result = new ShapeResult(PipeShape.STRAIGHT, rotation);

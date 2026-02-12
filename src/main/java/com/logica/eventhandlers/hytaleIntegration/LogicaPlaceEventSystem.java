@@ -6,7 +6,7 @@ import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
-import com.hypixel.hytale.logger.HytaleLogger;
+import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.event.events.ecs.PlaceBlockEvent;
@@ -32,7 +32,8 @@ public class LogicaPlaceEventSystem extends EntityEventSystem<EntityStore, Place
         try {
             Vector3i targetPos = event.getTargetBlock();
             World world = Universe.get().getDefaultWorld();
-            if (world == null) return;
+            if (world == null)
+                return;
 
             int x = targetPos.getX(), y = targetPos.getY(), z = targetPos.getZ();
 
@@ -42,14 +43,15 @@ public class LogicaPlaceEventSystem extends EntityEventSystem<EntityStore, Place
                     return;
                 String id = bt.getId();
                 if (LogicaConstants.isLogicaComponent(bt)) {
-                    HytaleLogger.getLogger().atInfo().log("[Logica] Block placed: " + id
+                    LogicaLogger.debug("[Logica] Block placed: " + id
                             + " at (" + x + ", " + y + ", " + z + ")");
                     LogicaEventListener listener = LogicaMod.getInstance().getEventListener();
-                    if (listener != null) listener.onBlockPlace(world, targetPos, id);
+                    if (listener != null)
+                        listener.onBlockPlace(world, targetPos, id);
                 }
             });
         } catch (Exception e) {
-            HytaleLogger.getLogger().atWarning().log("Exception happened at PlaceEventSystem: " + e);
+            LogicaLogger.warn("Exception happened at PlaceEventSystem: " + e);
         }
     }
 
