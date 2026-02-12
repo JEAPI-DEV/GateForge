@@ -90,7 +90,9 @@ public class Pipe extends Connector {
         // 2. Check Diagonal Neighbors (Pipe Step-up Logic)
         for (Vector3i neighborPos : NeighborScanner.pipeVerticalDiagonals(getPosition())) {
             ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
-            if (neighbor instanceof NetComp netComp && netComp.isActive()) {
+            // STRICT RULE: Only accept power from other PIPES via diagonal (step-up)
+            // connections.
+            if (neighbor instanceof Pipe pipe && pipe.isActive()) {
                 Vector3i delta = new Vector3i(
                         neighborPos.x - getPosition().x,
                         neighborPos.y - getPosition().y,
@@ -99,8 +101,8 @@ public class Pipe extends Connector {
                 // Map diagonal to horizontal orientation
                 if (delta.y != 0) {
                     Orientation horizontal = Orientation.fromDelta(delta.x, 0, delta.z);
-                    if (horizontal != null && netComp.isProvidingPowerTo(getPosition())) {
-                        newSources.put(netComp, horizontal);
+                    if (horizontal != null && pipe.isProvidingPowerTo(getPosition())) {
+                        newSources.put(pipe, horizontal);
                     }
                 }
             }
@@ -125,6 +127,11 @@ public class Pipe extends Connector {
 
         // Only handle if it's a diagonal (NetComp handles cardinals)
         if (delta.y != 0 && (delta.x != 0 || delta.z != 0)) {
+            // STRICT RULE: Ignore diagonal updates from non-Pipes (e.g. Gates)
+            if (!(caller instanceof Pipe)) {
+                return;
+            }
+
             Orientation horizontal = Orientation.fromDelta(delta.x, 0, delta.z);
             if (horizontal != null) {
                 boolean shouldBeSource = caller.isActive() && caller.isProvidingPowerTo(getPosition());
@@ -247,22 +254,60 @@ public class Pipe extends Connector {
 
     @Override
     public void notifyNeighbors(World world) {
-        super.notifyNeighbors(world);
+        // Do NOT call super.notifyNeighbors(world) to avoid queuing pipes.
+        // We handle propagation manually here for instant "wire" behavior.
 
         LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
-        for (Vector3i pos : NeighborScanner.pipeVerticalDiagonals(getPosition())) {
-            BlockType bt = world.getBlockType(pos);
+
+        // 1. Cardinal Neighbors (Cardinals)
+        for (Orientation orientation : Orientation.ALL) {
+            Vector3i offset = orientation.getDirection();
+            Vector3i neighborPos = new Vector3i(getPosition().x + offset.x,
+                    getPosition().y + offset.y,
+                    getPosition().z + offset.z);
+
+            BlockType bt = world.getBlockType(neighborPos);
+            // Must check logic component type before creating
+            if (LogicaConstants.isLogicaComponent(bt)) {
+                ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
+                if (neighbor == null) {
+                    neighbor = nm.createComponentForId(neighborPos, bt.getId(), world);
+                }
+
+                if (neighbor != null) {
+                    if (neighbor instanceof Pipe pipe) {
+                        // Instant propagation: Recurse immediately
+                        // Update logical state
+                        pipe.updateOutput(world, this);
+                        // Update visual shape
+                        pipe.updateShape(world);
+                    } else {
+                        // Gates/Lamps: Queue for next tick (keep delay)
+                        nm.enqueueUpdate(neighbor);
+                    }
+                }
+            }
+        }
+
+        // 2. Diagonal Neighbors (Step-up/down)
+        for (Vector3i neighborPos : NeighborScanner.pipeVerticalDiagonals(getPosition())) {
+            BlockType bt = world.getBlockType(neighborPos);
             if (!LogicaConstants.isLogicaComponent(bt))
                 continue;
 
-            ILogicaComponent neighbor = nm.getComponentAt(pos);
+            ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
             if (neighbor == null) {
-                neighbor = nm.createComponentForId(pos, bt.getId(), world);
+                neighbor = nm.createComponentForId(neighborPos, bt.getId(), world);
             }
+
             if (neighbor != null) {
-                nm.enqueueUpdate(neighbor);
                 if (neighbor instanceof Pipe pipe) {
+                    // Instant propagation for step-ups too
+                    pipe.updateOutput(world, this);
                     pipe.updateShape(world);
+                } else {
+                    // Should not happen due to connection rules, but safe fallback
+                    nm.enqueueUpdate(neighbor);
                 }
             }
         }

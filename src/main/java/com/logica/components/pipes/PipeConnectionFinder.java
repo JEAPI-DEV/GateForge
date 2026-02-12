@@ -33,7 +33,8 @@ public final class PipeConnectionFinder {
             addIfConnectable(world, pos, pipe, all, position);
         }
 
-        // Preserve legacy behavior: if both straight vertical neighbors exist, return only them
+        // Preserve legacy behavior: if both straight vertical neighbors exist, return
+        // only them
         Vector3i upPos = null;
         Vector3i downPos = null;
         for (Vector3i p : all) {
@@ -51,7 +52,8 @@ public final class PipeConnectionFinder {
         return all;
     }
 
-    private static void addIfConnectable(World world, Vector3i neighborPos, Pipe pipe, List<Vector3i> connections, Vector3i origin) {
+    private static void addIfConnectable(World world, Vector3i neighborPos, Pipe pipe, List<Vector3i> connections,
+            Vector3i origin) {
         int dx = neighborPos.x - origin.x;
         int dy = neighborPos.y - origin.y;
         int dz = neighborPos.z - origin.z;
@@ -78,6 +80,11 @@ public final class PipeConnectionFinder {
             neighbor = nm.createComponentForId(neighborPos, id, world);
 
         if (neighbor != null && pipe.canConnectTo(neighbor)) {
+            // Strict check: Diagonal (step-up) connections are ONLY allowed between Pipes.
+            if (dy != 0 && !(neighbor instanceof Pipe)) {
+                return;
+            }
+
             Orientation relativeDir;
             if (dy != 0) {
                 relativeDir = Orientation.fromDelta(-dx, 0, -dz);
@@ -99,7 +106,8 @@ public final class PipeConnectionFinder {
     }
 
     private static boolean isPipeOrGate(LogicaConstants.BlockId id) {
-        if (id == null) return false;
+        if (id == null)
+            return false;
         return switch (id) {
             case PIPE, GATE_AND, GATE_OR, GATE_NOT, GATE_NAND, GATE_NOR, GATE_XOR, GATE_BUFFER -> true;
             default -> false;

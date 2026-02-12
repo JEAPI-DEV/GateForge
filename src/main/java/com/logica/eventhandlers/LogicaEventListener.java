@@ -35,6 +35,16 @@ public class LogicaEventListener {
                 networkManager.enqueueUpdate(neighbor);
             }
         }
+        // Also notify diagonal neighbors (for pipes)
+        for (Vector3i neighborPos : NeighborScanner.pipeVerticalDiagonals(pos)) {
+            ILogicaComponent neighbor = networkManager.getComponentAt(neighborPos);
+            if (neighbor != null) {
+                networkManager.enqueueUpdate(neighbor);
+                if (neighbor instanceof com.logica.components.pipes.Pipe pipe) {
+                    pipe.updateShape(world);
+                }
+            }
+        }
     }
 
     public void onBlockInteract(World world, Vector3i pos) {
