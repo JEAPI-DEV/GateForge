@@ -6,7 +6,7 @@ import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.core.NeighborScanner;
 import com.logica.components.core.NetComp;
-import com.logica.components.interfaces.ILogicaComponent;
+import com.logica.components.core.ILogicaComponent;
 import com.logica.network.LogicaNetworkManager;
 import com.logica.utils.NetCompHelper;
 import com.logica.utils.PowerUtil;

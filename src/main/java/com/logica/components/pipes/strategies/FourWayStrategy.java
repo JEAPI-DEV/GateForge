@@ -30,36 +30,36 @@ public class FourWayStrategy implements PipeShapeStrategy {
             if (!context.vw)
                 rotation = 0; // Has VN, VE, VS
             else if (!context.vn)
-                rotation = 3; // Has VE, VS, VW
+                rotation = 1; // Has VE, VS, VW
             else if (!context.ve)
                 rotation = 2; // Has VS, VW, VN
             else
-                rotation = 1; // Has VW, VN, VE
+                rotation = 3; // Has VW, VN, VE
         } else if (vCount == 2) {
             if (context.vn && context.vs) {
                 rotation = 0; // VN, VS (Opposite)
             } else if (context.ve && context.vw) {
-                rotation = 1; // VE, VW (Opposite)
+                rotation = 3; // VE, VW (Opposite)
             } else {
                 // Adjacent
                 if (context.vn && context.ve)
                     rotation = 0;
                 else if (context.ve && context.vs)
-                    rotation = 3;
+                    rotation = 1;
                 else if (context.vs && context.vw)
                     rotation = 2;
                 else
-                    rotation = 1; // VW, VN
+                    rotation = 3; // VW, VN
             }
         } else if (vCount == 1) {
             if (context.vn)
                 rotation = 0;
             else if (context.ve)
-                rotation = 3;
+                rotation = 1;
             else if (context.vs)
                 rotation = 2;
             else
-                rotation = 1;
+                rotation = 3;
         } else {
             rotation = 0;
         }

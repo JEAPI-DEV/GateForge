@@ -22,7 +22,7 @@ This document describes how to migrate the copied legacy components (gates, pipe
 - Replace any legacy imports:
   - `com.logica.core.Gate` → `com.logica.components.gate.Gate`
   - `com.logica.models.Orientation` → `com.logica.vars.Orientation`
-  - `com.logica.api.ILogicaComponent` → `com.logica.components.interfaces.ILogicaComponent`
+  - `com.logica.api.ILogicaComponent` → `com.logica.components.core.ILogicaComponent`
   - `com.logica.core.Connector` → `com.logica.components.core.Connector`
   - `com.logica.system.managers.LogicaNetworkManager` → `com.logica.network.LogicaNetworkManager`
 - Ensure all providers extend `com.logica.components.core.PowerProvider`.

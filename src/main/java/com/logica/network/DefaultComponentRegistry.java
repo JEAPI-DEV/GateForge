@@ -15,7 +15,7 @@ import com.logica.components.gate.OrGate;
 import com.logica.components.gate.XORGate;
 import com.logica.components.gate.custom.Clock;
 import com.logica.components.gate.custom.DFF;
-import com.logica.components.interfaces.ILogicaComponent;
+import com.logica.components.core.ILogicaComponent;
 import com.logica.components.pipes.Pipe;
 import com.logica.components.providers.Lever;
 import com.logica.components.providers.PressurePlate;

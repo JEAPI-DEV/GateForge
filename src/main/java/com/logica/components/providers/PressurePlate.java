@@ -26,10 +26,6 @@ public class PressurePlate extends PowerProvider {
 
     @Override
     public void render(World world) {
-        updateBlockState(world);
-    }
-
-    private void updateBlockState(World world) {
         var blockType = world.getBlockType(getPosition());
         if (blockType != null) {
             String state = isActive() ? "Active" : "default";
@@ -47,16 +43,6 @@ public class PressurePlate extends PowerProvider {
     @Override
     public List<Vector3i> getOutputs(World world) {
         return NeighborScanner.sixWay(getPosition());
-    }
-
-    @Override
-    public boolean isProvidingPowerTo(Vector3i neighborPos) {
-        if (!isActive() || neighborPos == null)
-            return false;
-        int dx = Math.abs(neighborPos.x - getPosition().x);
-        int dy = Math.abs(neighborPos.y - getPosition().y);
-        int dz = Math.abs(neighborPos.z - getPosition().z);
-        return (dx + dy + dz) == 1;
     }
 
     @Override

@@ -2,11 +2,10 @@ package com.logica.network;
 
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.logica.components.interfaces.ILogicaComponent;
+import com.logica.components.core.ILogicaComponent;
 import com.logica.vars.LogicaConstants;
 
 import java.util.function.BiFunction;
-import com.logica.vars.LogicaConstants;
 
 /**
  * Abstraction for mapping block IDs to component factories.

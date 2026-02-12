@@ -43,39 +43,20 @@ public class Piston extends Consumer {
         // Default behavior: do nothing
     }
 
-    private boolean isPowered(World world) {
-        if (!state.activeSources().isEmpty())
-            return true;
-
-        for (Orientation o : Orientation.ALL) {
-            Vector3i neighborPos = new Vector3i(getPosition().x + o.getDirection().x,
-                    getPosition().y + o.getDirection().y,
-                    getPosition().z + o.getDirection().z);
-            if (PowerUtil.isSolidBlockReceivingStrongPower(world, neighborPos, getPosition(), true))
-                return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean isProvidingPowerTo(Vector3i neighborPos) {
-        return false;
-    }
-
     private boolean tryPush(World world) {
         LogicaBlockAccessor accessor = LogicaBlockAccessor.forWorld(world);
         if (accessor == null)
             return false;
 
-    Orientation pushDir = Orientation.fromRotationIndex(state.rotation());
-    Vector3i dir = pushDir.getDirection();
+        Orientation pushDir = Orientation.fromRotationIndex(state.rotation());
+        Vector3i dir = pushDir.getDirection();
 
-    List<BlockInfo> blocksToMove = new ArrayList<>();
+        List<BlockInfo> blocksToMove = new ArrayList<>();
         boolean foundGap = false;
 
         for (int i = 1; i <= 11; i++) {
-        Vector3i pos = new Vector3i(getPosition().x + dir.x * i, getPosition().y + dir.y * i,
-            getPosition().z + dir.z * i);
+            Vector3i pos = new Vector3i(getPosition().x + dir.x * i, getPosition().y + dir.y * i,
+                    getPosition().z + dir.z * i);
             BlockType bt = world.getBlockType(pos);
 
             // Robust Air/Gap check
@@ -99,7 +80,7 @@ public class Piston extends Consumer {
             accessor.setBlock(target.x, target.y, target.z, typeIndex, bi.type(), bi.rotation(), 0, 198);
         }
 
-    Vector3i front = new Vector3i(getPosition().x + dir.x, getPosition().y + dir.y, getPosition().z + dir.z);
+        Vector3i front = new Vector3i(getPosition().x + dir.x, getPosition().y + dir.y, getPosition().z + dir.z);
         accessor.setBlock(front.x, front.y, front.z, 0, null, 0, 0, 198);
 
         return true;

@@ -112,9 +112,6 @@ public final class LogicaBlockAccessor {
         return callSync(() -> {
             BlockAccessor chunk = accessor.getChunk(ChunkUtil.indexChunkFromBlock(x, z));
             if (chunk == null) return false;
-
-            //if(!val) HytaleLogger.getLogger().atWarning().log("%d|%d|%d , ID:%s, TYPE:%s," +
-            //      " ROT:%d, FILLER:%d, SETTINGS:%d", x,y,z, typeId, blockType.toString(), rotation, filler, settings);
             return chunk.setBlock(x, y, z, typeId, blockType, rotation, filler, settings);
         }, false);
     }

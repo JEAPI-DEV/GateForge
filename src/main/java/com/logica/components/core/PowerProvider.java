@@ -14,4 +14,14 @@ public abstract class PowerProvider extends NetComp {
         this.state.setOn(state);
         notifyNeighbors(world);
     }
+
+    @Override
+    public boolean isProvidingPowerTo(Vector3i neighborPos) {
+        if (!isActive() || neighborPos == null)
+            return false;
+        int dx = Math.abs(neighborPos.x - getPosition().x);
+        int dy = Math.abs(neighborPos.y - getPosition().y);
+        int dz = Math.abs(neighborPos.z - getPosition().z);
+        return (dx + dy + dz) == 1;
+    }
 }

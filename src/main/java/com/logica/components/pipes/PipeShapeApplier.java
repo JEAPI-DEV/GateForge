@@ -4,6 +4,7 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.logica.vars.Orientation;
 import com.logica.workarounds.LogicaBlockAccessor;
 
 /**
@@ -33,14 +34,15 @@ public final class PipeShapeApplier {
             int typeIndex = BlockType.getAssetMap().getIndex(stateType.getId());
             LogicaBlockAccessor accessor = LogicaBlockAccessor.forWorld(world);
 
-            if (accessor.setBlock(position.x, position.y, position.z, typeIndex, stateType, result.getRotation(), 0,
+            int engineRotation = Orientation.toEngineRotationIndex(result.getRotation());
+            if (accessor.setBlock(position.x, position.y, position.z, typeIndex, stateType, engineRotation, 0,
                     198)) {
                 try {
                     world.performBlockUpdate(position.getX(), position.getY(), position.getZ());
                 } catch (Throwable ignored) {
                 }
                 LOG.atInfo().log("[Logica][Pipe] Physically updated %s to %s (rot:%d)", position, result.getState(),
-                        result.getRotation());
+                        engineRotation);
                 return true;
             }
         } catch (Exception ex) {

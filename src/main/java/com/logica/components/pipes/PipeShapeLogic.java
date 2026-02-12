@@ -101,7 +101,7 @@ public class PipeShapeLogic {
                     Orientation hDir = Orientation.fromDelta(dx, 0, dz);
                     if (hDir != null) {
                         active.add(hDir);
-                        if (dy == 1) { // Only mark as 'climbing' if going UP?
+                        if (dy == 1 && !(dx != 0 && dz != 0)) {
                             climbing.add(hDir);
                         }
                     }

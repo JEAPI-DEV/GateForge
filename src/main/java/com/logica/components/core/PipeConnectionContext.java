@@ -62,10 +62,10 @@ public class PipeConnectionContext {
                 localVW = vw;
                 break;
             case 3:
-                localVN = ve;
-                localVE = vs;
-                localVS = vw;
-                localVW = vn;
+                localVN = vw;
+                localVE = vn;
+                localVS = ve;
+                localVW = vs;
                 break;
             case 2:
                 localVN = vs;
@@ -74,10 +74,10 @@ public class PipeConnectionContext {
                 localVW = ve;
                 break;
             case 1:
-                localVN = vw;
-                localVE = vn;
-                localVS = ve;
-                localVW = vs;
+                localVN = ve;
+                localVE = vs;
+                localVS = vw;
+                localVW = vn;
                 break;
         }
 

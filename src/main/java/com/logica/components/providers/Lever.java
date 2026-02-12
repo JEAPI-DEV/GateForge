@@ -7,7 +7,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.core.NeighborScanner;
 import com.logica.components.core.NetComp;
 import com.logica.components.core.PowerProvider;
-import com.logica.components.interfaces.ILogicaComponent;
+import com.logica.components.core.ILogicaComponent;
 import com.logica.network.LogicaNetworkManager;
 import com.logica.utils.NetCompHelper;
 import com.logica.vars.LogicaConstants;
@@ -41,7 +41,18 @@ public class Lever extends PowerProvider {
 
     @Override
     public void render(World world) {
-        updateBlockState(world);
+        try {
+            BlockType blockType = world.getBlockType(getPosition());
+            if (blockType != null) {
+                String state = isActive() ? "Active" : "default";
+                LogicaBlockAccessor accessor = LogicaBlockAccessor.forWorld(world);
+
+                accessor.setBlockInteractionState(getPosition(), blockType, state, false);
+                world.performBlockUpdate(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+            }
+        } catch (Exception e) {
+            LOG.atWarning().log("[Logica][Lever] Error updating block state: " + e.getMessage());
+        }
     }
 
     @Override
@@ -100,15 +111,7 @@ public class Lever extends PowerProvider {
         return NeighborScanner.sixWay(getPosition());
     }
 
-    @Override
-    public boolean isProvidingPowerTo(Vector3i neighborPos) {
-        if (!isActive() || neighborPos == null)
-            return false;
-        int dx = Math.abs(neighborPos.x - getPosition().x);
-        int dy = Math.abs(neighborPos.y - getPosition().y);
-        int dz = Math.abs(neighborPos.z - getPosition().z);
-        return (dx + dy + dz) == 1;
-    }
+
 
     @Override
     public void onRecover(World world) {
@@ -121,20 +124,5 @@ public class Lever extends PowerProvider {
                         rot, Orientation.fromRotationIndex(rot), getPosition());
             }
         } catch (Exception ignored) { }
-    }
-
-    private void updateBlockState(World world) {
-        try {
-            BlockType blockType = world.getBlockType(getPosition());
-            if (blockType != null) {
-                String state = isActive() ? "Active" : "default";
-                LogicaBlockAccessor accessor = LogicaBlockAccessor.forWorld(world);
-
-                accessor.setBlockInteractionState(getPosition(), blockType, state, false);
-                world.performBlockUpdate(getPosition().getX(), getPosition().getY(), getPosition().getZ());
-            }
-        } catch (Exception e) {
-            LOG.atWarning().log("[Logica][Lever] Error updating block state: " + e.getMessage());
-        }
     }
 }

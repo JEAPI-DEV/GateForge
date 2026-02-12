@@ -29,11 +29,11 @@ public class ThreeWayStrategy implements PipeShapeStrategy {
         if (!context.w)
             rotation = 0;
         else if (!context.n)
-            rotation = 3;
+            rotation = 1;
         else if (!context.e)
             rotation = 2;
         else
-            rotation = 1;
+            rotation = 3;
 
         // 3. Calculate Base Shape & State (with internal post-processing)
         HytaleLogger.getLogger().atInfo().log(

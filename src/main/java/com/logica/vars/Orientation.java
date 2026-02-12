@@ -96,6 +96,19 @@ public enum Orientation {
         return ROTATION_STEPS_BY_INDEX[normalized];
     }
 
+    /**
+     * Converts logical rotation steps (0..3) into engine rotation indices.
+     */
+    public static int toEngineRotationIndex(int steps) {
+        int normalized = Math.floorMod(steps, ROTATION_STEPS_BY_INDEX.length);
+        for (int i = 0; i < ROTATION_STEPS_BY_INDEX.length; i++) {
+            if (ROTATION_STEPS_BY_INDEX[i] == normalized) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
     public Orientation getLeft() {
         return rotateY(-1);
     }
@@ -108,6 +121,5 @@ public enum Orientation {
         return rotateY(2);
     }
 
-    public static final List<Orientation> HORIZONTAL = List.of(NORTH, EAST, SOUTH, WEST);
     public static final List<Orientation> ALL = List.of(NORTH, SOUTH, EAST, WEST, UP, DOWN);
 }

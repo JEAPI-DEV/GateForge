@@ -8,10 +8,9 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.core.PowerProvider;
-import com.logica.components.interfaces.ILogicaComponent;
+import com.logica.components.core.ILogicaComponent;
 import com.logica.network.LogicaNetworkManager;
 import com.logica.vars.LogicaConstants;
-import com.logica.vars.Orientation;
 
 import java.util.*;
 

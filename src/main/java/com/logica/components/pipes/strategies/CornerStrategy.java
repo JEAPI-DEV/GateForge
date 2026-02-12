@@ -24,11 +24,11 @@ public class CornerStrategy implements PipeShapeStrategy {
         if (context.n && context.e)
             rotation = 0;
         else if (context.e && context.s)
-            rotation = 3;
+            rotation = 1;
         else if (context.s && context.w)
             rotation = 2;
         else
-            rotation = 1; // WN
+            rotation = 3; // WN
 
         // Tagging
         java.util.Set<Orientation> relative = context.getRelativeVerticals(rotation);

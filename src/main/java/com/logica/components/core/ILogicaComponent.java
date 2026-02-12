@@ -1,8 +1,7 @@
-package com.logica.components.interfaces;
+package com.logica.components.core;
 
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.logica.components.core.NetComp;
 import com.logica.vars.Orientation;
 
 import java.util.List;

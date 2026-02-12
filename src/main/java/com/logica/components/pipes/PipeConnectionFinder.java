@@ -4,7 +4,7 @@ import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.core.NeighborScanner;
-import com.logica.components.interfaces.ILogicaComponent;
+import com.logica.components.core.ILogicaComponent;
 import com.logica.network.LogicaNetworkManager;
 import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
@@ -52,6 +52,12 @@ public final class PipeConnectionFinder {
     }
 
     private static void addIfConnectable(World world, Vector3i neighborPos, Pipe pipe, List<Vector3i> connections, Vector3i origin) {
+        int dx = neighborPos.x - origin.x;
+        int dy = neighborPos.y - origin.y;
+        int dz = neighborPos.z - origin.z;
+        if (dy != 0 && dx != 0 && dz != 0) {
+            return;
+        }
         LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
         BlockType bt = world.getBlockType(neighborPos);
         if (bt == null)
@@ -72,12 +78,18 @@ public final class PipeConnectionFinder {
             neighbor = nm.createComponentForId(neighborPos, id, world);
 
         if (neighbor != null && pipe.canConnectTo(neighbor)) {
-            Orientation relativeDir = Orientation.fromDirection(new Vector3i(
-                    origin.x - neighborPos.x,
-                    origin.y - neighborPos.y,
-                    origin.z - neighborPos.z));
-            if (relativeDir != null && neighbor.canAcceptInputFrom(origin, relativeDir) && !connections.contains(neighborPos)) {
-                connections.add(neighborPos);
+            Orientation relativeDir;
+            if (dy != 0) {
+                relativeDir = Orientation.fromDelta(-dx, 0, -dz);
+            } else {
+                relativeDir = Orientation.fromDelta(-dx, -dy, -dz);
+            }
+            if (relativeDir != null) {
+                boolean accepts = neighbor.canAcceptInputFrom(origin, relativeDir);
+                boolean provides = neighbor.canProvideOutputTo(origin, relativeDir);
+                if ((accepts || provides) && !connections.contains(neighborPos)) {
+                    connections.add(neighborPos);
+                }
             }
         }
     }
@@ -88,18 +100,9 @@ public final class PipeConnectionFinder {
 
     private static boolean isPipeOrGate(LogicaConstants.BlockId id) {
         if (id == null) return false;
-        switch (id) {
-            case PIPE:
-            case GATE_AND:
-            case GATE_OR:
-            case GATE_NOT:
-            case GATE_NAND:
-            case GATE_NOR:
-            case GATE_XOR:
-            case GATE_BUFFER:
-                return true;
-            default:
-                return false;
-        }
+        return switch (id) {
+            case PIPE, GATE_AND, GATE_OR, GATE_NOT, GATE_NAND, GATE_NOR, GATE_XOR, GATE_BUFFER -> true;
+            default -> false;
+        };
     }
 }

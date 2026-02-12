@@ -6,7 +6,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.core.Connector;
 import com.logica.components.core.NeighborScanner;
 import com.logica.components.core.NetComp;
-import com.logica.components.interfaces.ILogicaComponent;
+import com.logica.components.core.ILogicaComponent;
 import com.logica.network.LogicaNetworkManager;
 import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
@@ -45,8 +45,134 @@ public class Pipe extends Connector {
     }
 
     @Override
+    public void updateOutput(World world, NetComp caller) {
+        if (caller == null) {
+            // Full refresh: must check BOTH Cardinals (super logic) and Diagonals (Pipe
+            // logic)
+            // atomically to prevent state flickering (OFF -> ON).
+            refreshAllSources(world);
+        } else {
+            // Incremental update: NetComp handles Cardinals, we handle Diagonals
+            super.updateOutput(world, caller);
+            handleDiagonalUpdate(world, caller);
+        }
+        updateShape(world);
+    }
+
+    private void refreshAllSources(World world) {
+        java.util.Map<NetComp, Orientation> oldSources = new java.util.HashMap<>(state.activeSources());
+        java.util.Map<NetComp, Orientation> newSources = new java.util.HashMap<>();
+        LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
+
+        // 1. Check Cardinal Neighbors (Logic from NetComp)
+        for (Orientation orientation : Orientation.ALL) {
+            Vector3i offset = orientation.getDirection();
+            Vector3i neighborPos = new Vector3i(getPosition().x + offset.x,
+                    getPosition().y + offset.y,
+                    getPosition().z + offset.z);
+
+            ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
+            if (neighbor == null) {
+                BlockType bt = world.getBlockType(neighborPos);
+                if (LogicaConstants.isLogicaComponent(bt)) {
+                    neighbor = nm.createComponentForId(neighborPos, bt.getId(), world);
+                }
+            }
+
+            if (neighbor instanceof NetComp netComp) {
+                boolean providing = netComp.isActive() && netComp.isProvidingPowerTo(getPosition());
+                boolean accepts = canAcceptInputFrom(neighborPos, orientation);
+                if (providing && accepts) {
+                    newSources.put(netComp, orientation);
+                }
+            }
+        }
+
+        // 2. Check Diagonal Neighbors (Pipe Step-up Logic)
+        for (Vector3i neighborPos : NeighborScanner.pipeVerticalDiagonals(getPosition())) {
+            ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
+            if (neighbor instanceof NetComp netComp && netComp.isActive()) {
+                Vector3i delta = new Vector3i(
+                        neighborPos.x - getPosition().x,
+                        neighborPos.y - getPosition().y,
+                        neighborPos.z - getPosition().z);
+
+                // Map diagonal to horizontal orientation
+                if (delta.y != 0) {
+                    Orientation horizontal = Orientation.fromDelta(delta.x, 0, delta.z);
+                    if (horizontal != null && netComp.isProvidingPowerTo(getPosition())) {
+                        newSources.put(netComp, horizontal);
+                    }
+                }
+            }
+        }
+
+        boolean oldOn = state.isOn();
+        state.setActiveSources(newSources);
+        calculateNewState(world, null);
+        boolean sourcesChanged = !oldSources.equals(newSources);
+        boolean stateChanged = oldOn != state.isOn();
+
+        if (sourcesChanged || stateChanged) {
+            notifyNeighbors(world);
+        }
+    }
+
+    private void handleDiagonalUpdate(World world, NetComp caller) {
+        Vector3i delta = new Vector3i(
+                caller.getPosition().x - getPosition().x,
+                caller.getPosition().y - getPosition().y,
+                caller.getPosition().z - getPosition().z);
+
+        // Only handle if it's a diagonal (NetComp handles cardinals)
+        if (delta.y != 0 && (delta.x != 0 || delta.z != 0)) {
+            Orientation horizontal = Orientation.fromDelta(delta.x, 0, delta.z);
+            if (horizontal != null) {
+                boolean shouldBeSource = caller.isActive() && caller.isProvidingPowerTo(getPosition());
+
+                boolean changed = false;
+                if (shouldBeSource) {
+                    if (!state.activeSources().containsKey(caller)) {
+                        state.addSource(caller, horizontal);
+                        changed = true;
+                    }
+                } else {
+                    if (state.activeSources().containsKey(caller)) {
+                        state.removeSource(caller);
+                        changed = true;
+                    }
+                }
+
+                if (changed) {
+                    calculateNewState(world, caller);
+                    notifyNeighbors(world);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onPlace(World world) {
+        notifyNeighbors(world);
+    }
+
+    @Override
     protected void calculateNewState(World world, NetComp caller) {
-        state.setOn(!state.activeSources().isEmpty());
+        boolean powered = !state.activeSources().isEmpty();
+        if (!powered && world != null) {
+            for (Orientation orientation : Orientation.ALL) {
+                Vector3i offset = orientation.getDirection();
+                Vector3i neighborPos = new Vector3i(getPosition().x + offset.x,
+                        getPosition().y + offset.y,
+                        getPosition().z + offset.z);
+                if (com.logica.utils.PowerUtil.isSolidBlockReceivingStrongPower(world, neighborPos, getPosition(),
+                        true)) {
+                    powered = true;
+                    break;
+                }
+            }
+        }
+        state.setOn(powered);
     }
 
     @Override
@@ -74,10 +200,16 @@ public class Pipe extends Connector {
         if (!isActive() || neighborPos == null)
             return false;
 
-        Orientation rel = Orientation.fromDirection(new Vector3i(
-                neighborPos.x - getPosition().x,
-                neighborPos.y - getPosition().y,
-                neighborPos.z - getPosition().z));
+        int dx = neighborPos.x - getPosition().x;
+        int dy = neighborPos.y - getPosition().y;
+        int dz = neighborPos.z - getPosition().z;
+
+        Orientation rel = Orientation.fromDelta(dx, dy, dz);
+
+        // If direct cardinal failed, try horizontal component for diagonals
+        if (rel == null && dy != 0) {
+            rel = Orientation.fromDelta(dx, 0, dz);
+        }
 
         if (rel == null)
             return false;
@@ -88,11 +220,6 @@ public class Pipe extends Connector {
     @Override
     public boolean canProvidePowerThroughBlock(Vector3i neighborPos) {
         return false;
-    }
-
-    @Override
-    public boolean canAcceptInputFrom(Vector3i neighborPos, Orientation relativeDir) {
-        return true;
     }
 
     @Override
@@ -135,6 +262,9 @@ public class Pipe extends Connector {
             }
             if (neighbor != null) {
                 nm.enqueueUpdate(neighbor);
+                if (neighbor instanceof Pipe pipe) {
+                    pipe.updateShape(world);
+                }
             }
         }
     }

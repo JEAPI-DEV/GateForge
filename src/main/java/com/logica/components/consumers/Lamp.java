@@ -24,29 +24,22 @@ public class Lamp extends Consumer {
 
     @Override
     protected void calculateNewState(World world, com.logica.components.core.NetComp caller) {
-        boolean shouldBeActive = !state.activeSources().isEmpty();
-        boolean strongPower = false;
-        if (!shouldBeActive && world != null) {
-            for (Orientation orientation : Orientation.ALL) {
-                Vector3i offset = orientation.getDirection();
-                Vector3i neighborPos = new Vector3i(getPosition().x + offset.x, getPosition().y + offset.y,
-                        getPosition().z + offset.z);
-                if (PowerUtil.isSolidBlockReceivingStrongPower(world, neighborPos, getPosition(), true)) {
-                    strongPower = true;
-                    shouldBeActive = true;
-                    break;
-                }
-            }
-        }
+        boolean shouldBeActive = isPowered(world);
         HytaleLogger.getLogger().atInfo().log(
-                "[Logica][LampDebug] calc pos=%s sources=%d strongPower=%s shouldBeActive=%s",
-                getPosition(), state.activeSources().size(), strongPower, shouldBeActive);
+                "[Logica][LampDebug] calc pos=%s sources=%d shouldBeActive=%s",
+                getPosition(), state.activeSources().size(), shouldBeActive);
         applyStateChange(world, shouldBeActive);
     }
 
     @Override
     public void render(World world) {
-        updateBlockState(world);
+        BlockType blockType = world.getBlockType(getPosition());
+        if (blockType != null) {
+            LogicaBlockAccessor accessor = LogicaBlockAccessor.forWorld(world);
+            String stateName = isActive() ? "Active" : "default";
+            accessor.setBlockInteractionState(getPosition(), blockType, stateName, false);
+            world.performBlockUpdate(getPosition().getX(), getPosition().getY(), getPosition().getZ());
+        }
     }
 
     @Override
@@ -55,23 +48,8 @@ public class Lamp extends Consumer {
     }
 
     @Override
-    public boolean isProvidingPowerTo(Vector3i neighborPos) {
-        return false; // Lamps are consumers only
-    }
-
-    @Override
     public boolean canProvidePowerThroughBlock(Vector3i neighborPos) {
         return false;
-    }
-
-    private void updateBlockState(World world) {
-        BlockType blockType = world.getBlockType(getPosition());
-        if (blockType != null) {
-            LogicaBlockAccessor accessor = LogicaBlockAccessor.forWorld(world);
-            String stateName = isActive() ? "Active" : "default";
-            accessor.setBlockInteractionState(getPosition(), blockType, stateName, false);
-            world.performBlockUpdate(getPosition().getX(), getPosition().getY(), getPosition().getZ());
-        }
     }
 
     @Override
