@@ -220,7 +220,7 @@ public class Pipe extends Connector {
         if (rel == null)
             return false;
 
-        return !state.activeSources().containsValue(rel);
+        return !isBlockedBySource(neighborPos, rel);
     }
 
     @Override
@@ -232,7 +232,50 @@ public class Pipe extends Connector {
     public boolean canProvideOutputTo(Vector3i neighborPos, Orientation relativeDir) {
         if (relativeDir == null)
             return false;
-        return !state.activeSources().containsValue(relativeDir);
+        return !isBlockedBySource(neighborPos, relativeDir);
+    }
+
+    /**
+     * Checks if the target output direction is allowed based on active sources.
+     * Normally, we block outputting to the same direction as an input (backflow
+     * prevention).
+     * However, we allow "ZigZag" (Vertical Hairpin) connections where one is Up and
+     * one is Down.
+     */
+    private boolean isBlockedBySource(Vector3i targetPos, Orientation targetDir) {
+        boolean targetIsDiagonal = (targetPos.y != getPosition().y);
+
+        for (java.util.Map.Entry<NetComp, Orientation> entry : state.activeSources().entrySet()) {
+            NetComp sourceComp = entry.getKey();
+            Orientation sourceDir = entry.getValue();
+
+            if (sourceComp == null || sourceDir == null)
+                continue;
+
+            // 1. Direct Backflow: Always block outputting directly back to the source
+            // component
+            if (sourceComp.getPosition().equals(targetPos))
+                return true;
+
+            // 2. Directional Collision: If source and target share direction, check exact
+            // geometry
+            if (sourceDir == targetDir) {
+                boolean sourceIsDiagonal = (sourceComp.getPosition().y != getPosition().y);
+
+                if (targetIsDiagonal && sourceIsDiagonal) {
+                    // ZigZag Exception: If they are on opposite vertical sides (Up vs Down), ALLOW
+                    // it.
+                    if (targetPos.y != sourceComp.getPosition().y) {
+                        continue; // Not blocked by this source
+                    }
+                }
+
+                // If not a ZigZag exception, it's a collision (Blocked)
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
