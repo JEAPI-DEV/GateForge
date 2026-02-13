@@ -20,6 +20,7 @@ public class LogicaLogger {
     }
 
     public static void info(String message) {
+        if(!isDebug()) return;
         LOGGER.atInfo().log(message);
     }
 

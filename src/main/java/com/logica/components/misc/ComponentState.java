@@ -50,18 +50,16 @@ public class ComponentState {
         activeSources.put(source, inputdir);
     }
 
+    public void setPos(Vector3i pos) {
+        this.pos = pos;
+    }
+
     public void removeSource(NetComp source){
         activeSources.remove(source);
     }
 
-    public void removeSource(Orientation inputdir){
-        Iterator<Map.Entry<NetComp, Orientation>> iterator = activeSources.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<NetComp, Orientation> entry = iterator.next();
-            if(entry.getValue() == inputdir){
-                iterator.remove();
-            }
-        }
+    public void removeSource(Orientation inputdir) {
+        activeSources.entrySet().removeIf(entry -> entry.getValue() == inputdir);
     }
 
     public boolean isOn() {

@@ -85,7 +85,7 @@ public final class LogicaBlockAccessor {
     public int getRotationIndex(@Nonnull Vector3i pos) {
         return callSync(() -> {
             return accessor.getBlockRotationIndex(pos.getX(), pos.getY(), pos.getZ());
-        }, 0);
+        }, -1);
     }
 
     /**

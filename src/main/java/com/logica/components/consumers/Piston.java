@@ -3,8 +3,12 @@ package com.logica.components.consumers;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.logica.components.core.ILogicaComponent;
 import com.logica.components.core.NeighborScanner;
+import com.logica.components.core.NetComp;
+import com.logica.network.LogicaNetworkManager;
 import com.logica.utils.PowerUtil;
+import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
 import com.logica.workarounds.LogicaBlockAccessor;
 
@@ -25,7 +29,10 @@ public class Piston extends Consumer {
     protected void calculateNewState(World world, com.logica.components.core.NetComp caller) {
         LogicaBlockAccessor accessor = LogicaBlockAccessor.forWorld(world);
         if (accessor != null) {
-            state.setRotation(accessor.getRotationIndex(getPosition()));
+            int rot = accessor.getRotationIndex(getPosition());
+            if (rot != -1) {
+                state.setRotation(rot);
+            }
         }
 
         boolean powered = isPowered(world);
@@ -67,7 +74,7 @@ public class Piston extends Consumer {
             }
 
             if (i > 10) return false;
-            if (isUnpushable(bt)) return false;
+            if (isUnpushable(pos, bt)) return false;
             blocksToMove.add(new BlockInfo(pos, bt, accessor.getRotationIndex(pos)));
         }
 
@@ -78,6 +85,13 @@ public class Piston extends Consumer {
             Vector3i target = new Vector3i(bi.pos().x + dir.x, bi.pos().y + dir.y, bi.pos().z + dir.z);
             int typeIndex = BlockType.getAssetMap().getIndex(bi.type().getId());
             accessor.setBlock(target.x, target.y, target.z, typeIndex, bi.type(), bi.rotation(), 0, 198);
+
+            if (LogicaConstants.isLogicaComponent(bi.type())) {
+                ILogicaComponent comp = LogicaNetworkManager.getInstance().getComponentAt(bi.pos());
+                if (comp instanceof NetComp netComp) {
+                    netComp.setPosition(target);
+                }
+            }
         }
 
         Vector3i front = new Vector3i(getPosition().x + dir.x, getPosition().y + dir.y, getPosition().z + dir.z);
@@ -86,7 +100,19 @@ public class Piston extends Consumer {
         return true;
     }
 
-    protected boolean isUnpushable(BlockType bt) {
+    protected boolean isUnpushable(Vector3i pos, BlockType bt) {
+        if (bt == null || bt.getId() == null)
+            return false;
+
+        String id = bt.getId();
+        if (id.equals(LogicaConstants.KEY_PISTON) ||
+                id.equals(LogicaConstants.KEY_STICKY_PISTON)) {
+
+            ILogicaComponent comp = LogicaNetworkManager.getInstance()
+                    .getComponentAt(pos);
+
+            if (comp != null && comp.isActive()) return true;
+        }
         return false;
     }
 

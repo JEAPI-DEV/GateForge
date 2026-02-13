@@ -9,6 +9,8 @@ import java.util.Locale;
  */
 public class LogicaConstants {
     public static final String MOD_ID = "gateforge";
+    public static final String KEY_PISTON = "gateforge_piston";
+    public static final String KEY_STICKY_PISTON = "gateforge_piston_sticky";
 
     /**
      * Enumerates all known Logica block IDs.

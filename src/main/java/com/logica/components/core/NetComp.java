@@ -29,6 +29,10 @@ public abstract class NetComp implements ILogicaComponent {
         return state.pos();
     }
 
+    public void setPosition(Vector3i pos) {
+        state.setPos(pos);
+    }
+
     @Override
     public boolean isActive() {
         return state.isOn();
