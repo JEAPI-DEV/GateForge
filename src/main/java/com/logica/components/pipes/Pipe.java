@@ -158,11 +158,6 @@ public class Pipe extends Connector {
     }
 
     @Override
-    public void onPlace(World world) {
-        notifyNeighbors(world);
-    }
-
-    @Override
     protected void calculateNewState(World world, NetComp caller) {
         boolean powered = !state.activeSources().isEmpty();
         if (!powered && world != null) {

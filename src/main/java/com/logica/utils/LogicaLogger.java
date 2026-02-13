@@ -24,6 +24,7 @@ public class LogicaLogger {
     }
 
     public static void info(String message, Object... args) {
+        if(!isDebug()) return;
         try {
             LOGGER.atInfo().log(String.format(message, args));
         } catch (Exception e) {

@@ -168,11 +168,55 @@ public abstract class NetComp implements ILogicaComponent {
     @Override
     public void onPlace(World world) {
         updateOutput(world, null);
+
+        // Explicitly update neighbor shapes on placement
+        // This ensures pipes visually connect to the new component immediately
+        LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
+        for (Orientation orientation : Orientation.ALL) {
+            Vector3i offset = orientation.getDirection();
+            Vector3i neighborPos = new Vector3i(getPosition().x + offset.x,
+                    getPosition().y + offset.y,
+                    getPosition().z + offset.z);
+
+            ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
+            if (neighbor instanceof com.logica.components.pipes.Pipe pipe) {
+                pipe.updateShape(world);
+            }
+        }
+
+        // Also check diagonal neighbors for Pipe connections (Step-Up/Down)
+        for (Vector3i neighborPos : NeighborScanner.pipeVerticalDiagonals(getPosition())) {
+            ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
+            if (neighbor instanceof com.logica.components.pipes.Pipe pipe) {
+                pipe.updateShape(world);
+            }
+        }
     }
 
     @Override
     public void onBreak(World world) {
+        // Explicitly update neighbor shapes on break
+        // This ensures pipes visually disconnect when a component is removed
+        LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
+        for (Orientation orientation : Orientation.ALL) {
+            Vector3i offset = orientation.getDirection();
+            Vector3i neighborPos = new Vector3i(getPosition().x + offset.x,
+                    getPosition().y + offset.y,
+                    getPosition().z + offset.z);
 
+            ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
+            if (neighbor instanceof com.logica.components.pipes.Pipe pipe) {
+                pipe.updateShape(world);
+            }
+        }
+
+        // Also check diagonal neighbors for Pipe connections (Step-Up/Down)
+        for (Vector3i neighborPos : NeighborScanner.pipeVerticalDiagonals(getPosition())) {
+            ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
+            if (neighbor instanceof com.logica.components.pipes.Pipe pipe) {
+                pipe.updateShape(world);
+            }
+        }
     }
 
     @Override
