@@ -1,6 +1,6 @@
 {
     "TranslationProperties": {
-        "Name": "Logica Gate (OR)"
+        "Name": "GateForge Component (DFF)"
     },
     "Categories": [
         "Blocks.Mechanism"
@@ -8,10 +8,10 @@
     "BlockType": {
         "Material": "Solid",
         "DrawType": "Model",
-        "CustomModel": "Blocks/Logic/Gate/Or/logica_gate_or_SN.blockymodel",
+        "CustomModel": "Blocks/Logic/Comp/DFF/gateforge_comp_dff.blockymodel",
         "CustomModelTexture": [
             {
-                "Texture": "Blocks/Logic/Gate/Or/logica_gate_or.png"
+                "Texture": "Blocks/Logic/Comp/DFF/gateforge_comp_dff.png"
             }
         ],
         "HitboxType": "Block_Flat",
@@ -21,11 +21,11 @@
         "Gathering": {
             "Breaking": {
                 "GatherType": "SoftBlocks",
-                "ItemId": "logica_gate_or"
+                "ItemId": "gateforge_comp_dff"
             }
         }
     },
-    "Icon": "Icons/Items/logica_gate_or.png",
+    "Icon": "Icons/Items/gateforge_comp_dff.png",
     "PlayerAnimationsId": "Block",
     "MaxStack": 64,
     "ItemLevel": 10,
@@ -34,7 +34,9 @@
         "OutputQuantity": 1,
         "Input": [
             { "ItemId": "Ingredient_Bar_Copper", "Quantity": 2 },
-            { "ItemId": "Rock_Stone_Cobble", "Quantity": 2 }
+            { "ItemId": "Rock_Stone_Cobble", "Quantity": 2 },
+            { "ItemId": "Ingredient_Bar_Gold", "Quantity": 4 },
+            { "ItemId": "Ingredient_Fibre", "Quantity": 1 }
         ],
         "BenchRequirement": [
             {

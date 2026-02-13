@@ -67,7 +67,7 @@ public class LogicaMod extends JavaPlugin {
             EntityModule.get().getEntityStoreRegistry().registerSystem(new LogicaPlaceEventSystem());
             EntityModule.get().getEntityStoreRegistry().registerSystem(new LogicaBreakEventSystem());
             EntityModule.get().getEntityStoreRegistry().registerSystem(new LogicaInteractEventSystem());
-            LogicaLogger.info("[Logica] Event systems registered via EntityModule");
+            LogicaLogger.info("[GateForge] Event systems registered via EntityModule");
         } catch (Exception e) {
             LogicaLogger.warn("Failed to register event system: " + e.getMessage());
         }

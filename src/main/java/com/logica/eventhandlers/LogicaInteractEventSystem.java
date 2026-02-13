@@ -43,7 +43,7 @@ public class LogicaInteractEventSystem extends EntityEventSystem<EntityStore, Us
                     ILogicaComponent comp = nm.getComponentAt(targetPos);
 
                     if (comp != null) {
-                        LogicaLogger.debug("[Logica] Interaction with " + comp.getClass().getSimpleName());
+                        LogicaLogger.debug("[GateForge] Interaction with " + comp.getClass().getSimpleName());
                         comp.onInteract(world);
                     }
                 });

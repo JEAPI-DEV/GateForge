@@ -50,7 +50,7 @@ public class Lever extends PowerProvider {
                 world.performBlockUpdate(getPosition().getX(), getPosition().getY(), getPosition().getZ());
             }
         } catch (Exception e) {
-            LogicaLogger.warn("[Logica][Lever] Error updating block state: " + e.getMessage());
+            LogicaLogger.warn("[GateForge][Lever] Error updating block state: " + e.getMessage());
         }
     }
 
@@ -117,7 +117,7 @@ public class Lever extends PowerProvider {
             if (accessor != null) {
                 int rot = accessor.getRotationIndex(getPosition());
                 this.state = state.withRotation(rot);
-                LogicaLogger.info("[Logica][Lever] rotation=%d facing=%s pos=%s",
+                LogicaLogger.info("[GateForge][Lever] rotation=%d facing=%s pos=%s",
                         rot, Orientation.fromRotationIndex(rot), getPosition());
             }
         } catch (Exception ignored) {

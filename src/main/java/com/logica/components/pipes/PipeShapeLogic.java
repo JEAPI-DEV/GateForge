@@ -39,7 +39,7 @@ public class PipeShapeLogic {
             Set<Orientation> activeConnections,
             Set<Orientation> climbingConnections) {
 
-        LogicaLogger.debug("[Logica][Pipe] Calculating shape for %s", position);
+        LogicaLogger.debug("[GateForge][Pipe] Calculating shape for %s", position);
 
         // 1. Build Context
         PipeConnectionContext context = new PipeConnectionContext(neighborContext, activeConnections,
@@ -55,7 +55,7 @@ public class PipeShapeLogic {
         }
 
         // 3. Calculate Base Shape & State (with internal post-processing)
-        LogicaLogger.debug("[Logica][Pipe] Context Flags for %s: H(N:%b S:%b E:%b W:%b) V(N:%b S:%b E:%b W:%b)",
+        LogicaLogger.debug("[GateForge][Pipe] Context Flags for %s: H(N:%b S:%b E:%b W:%b) V(N:%b S:%b E:%b W:%b)",
                 position,
                 context.n, context.s, context.e, context.w,
                 context.vn, context.vs, context.ve, context.vw);
@@ -70,7 +70,7 @@ public class PipeShapeLogic {
         result.u = context.up;
         result.d = context.down;
 
-        LogicaLogger.debug("[Logica][Pipe] Final: %s (rot:%d)", result.getState(), result.getRotation());
+        LogicaLogger.debug("[GateForge][Pipe] Final: %s (rot:%d)", result.getState(), result.getRotation());
         return result;
     }
 

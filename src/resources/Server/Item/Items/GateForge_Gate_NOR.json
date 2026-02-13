@@ -1,6 +1,6 @@
 {
     "TranslationProperties": {
-        "Name": "Logica Gate (XOR)"
+        "Name": "GateForge Gate (NOR)"
     },
     "Categories": [
         "Blocks.Mechanism"
@@ -8,10 +8,10 @@
     "BlockType": {
         "Material": "Solid",
         "DrawType": "Model",
-        "CustomModel": "Blocks/Logic/Gate/XOR/logica_gate_xor_SN.blockymodel",
+        "CustomModel": "Blocks/Logic/Gate/NOR/gateforge_gate_nor_SN.blockymodel",
         "CustomModelTexture": [
             {
-                "Texture": "Blocks/Logic/Gate/XOR/logica_gate_xor.png"
+                "Texture": "Blocks/Logic/Gate/NOR/gateforge_gate_nor.png"
             }
         ],
         "HitboxType": "Block_Flat",
@@ -21,11 +21,11 @@
         "Gathering": {
             "Breaking": {
                 "GatherType": "SoftBlocks",
-                "ItemId": "logica_gate_XOR"
+                "ItemId": "gateforge_gate_NOR"
             }
         }
     },
-    "Icon": "Icons/Items/logica_gate_xor.png",
+    "Icon": "Icons/Items/gateforge_gate_nor.png",
     "PlayerAnimationsId": "Block",
     "MaxStack": 64,
     "ItemLevel": 10,

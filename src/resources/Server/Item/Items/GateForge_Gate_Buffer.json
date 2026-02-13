@@ -1,6 +1,6 @@
 {
     "TranslationProperties": {
-        "Name": "Logica Component (DFF)"
+        "Name": "GateForge Gate (Buffer)"
     },
     "Categories": [
         "Blocks.Mechanism"
@@ -8,24 +8,18 @@
     "BlockType": {
         "Material": "Solid",
         "DrawType": "Model",
-        "CustomModel": "Blocks/Logic/Comp/DFF/logica_comp_dff.blockymodel",
+        "CustomModel": "Blocks/Logic/Gate/Buffer/gateforge_gate_buffer_SN.blockymodel",
         "CustomModelTexture": [
             {
-                "Texture": "Blocks/Logic/Comp/DFF/logica_comp_dff.png"
+                "Texture": "Blocks/Logic/Gate/Buffer/gateforge_gate_buffer.png"
             }
         ],
         "HitboxType": "Block_Flat",
         "VariantRotation": "NESW",
         "BlockParticleSetId": "Stone",
-        "BlockSoundSetId": "Stone",
-        "Gathering": {
-            "Breaking": {
-                "GatherType": "SoftBlocks",
-                "ItemId": "logica_comp_dff"
-            }
-        }
+        "BlockSoundSetId": "Stone"
     },
-    "Icon": "Icons/Items/logica_comp_dff.png",
+    "Icon": "Icons/Items/gateforge_gate_buffer.png",
     "PlayerAnimationsId": "Block",
     "MaxStack": 64,
     "ItemLevel": 10,
@@ -34,9 +28,7 @@
         "OutputQuantity": 1,
         "Input": [
             { "ItemId": "Ingredient_Bar_Copper", "Quantity": 2 },
-            { "ItemId": "Rock_Stone_Cobble", "Quantity": 2 },
-            { "ItemId": "Ingredient_Bar_Gold", "Quantity": 4 },
-            { "ItemId": "Ingredient_Fibre", "Quantity": 1 }
+            { "ItemId": "Rock_Stone_Cobble", "Quantity": 1 }
         ],
         "BenchRequirement": [
             {

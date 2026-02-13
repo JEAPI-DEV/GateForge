@@ -67,7 +67,7 @@ public class LogicaNetworkManager implements LogicTicker {
         if (comp == null)
             return null;
         storage.add(comp);
-        LogicaLogger.info("[Logica][NM] Created/Recovered " + comp.getClass().getSimpleName() + " at " + pos);
+        LogicaLogger.info("[GateForge][NM] Created/Recovered " + comp.getClass().getSimpleName() + " at " + pos);
         comp.onRecover(world);
         comp.onPlace(world);
         enqueueUpdate(comp);
@@ -84,7 +84,7 @@ public class LogicaNetworkManager implements LogicTicker {
     public void enqueueUpdate(ILogicaComponent comp) {
         if (comp != null && !updateDeque.contains(comp)) {
             if (comp.getClass().getSimpleName().equalsIgnoreCase("Lamp")) {
-                LogicaLogger.debug("[Logica][NM] Enqueued Lamp update at %s", comp.getPosition());
+                LogicaLogger.debug("[GateForge][NM] Enqueued Lamp update at %s", comp.getPosition());
             }
             updateDeque.add(comp);
         }

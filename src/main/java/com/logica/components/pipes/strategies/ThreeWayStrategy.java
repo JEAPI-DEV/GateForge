@@ -37,7 +37,7 @@ public class ThreeWayStrategy implements PipeShapeStrategy {
 
         // 3. Calculate Base Shape & State (with internal post-processing)
         LogicaLogger.debug(
-                "[Logica][ContexThreeWayStrategy]: H(N:%b S:%b E:%b W:%b) V(N:%b S:%b E:%b W:%b)",
+                "[GateForge][ContexThreeWayStrategy]: H(N:%b S:%b E:%b W:%b) V(N:%b S:%b E:%b W:%b)",
                 context.n, context.s, context.e, context.w,
                 context.vn, context.vs, context.ve, context.vw);
 

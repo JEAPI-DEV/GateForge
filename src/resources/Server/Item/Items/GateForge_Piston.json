@@ -1,6 +1,6 @@
 {
     "TranslationProperties": {
-        "Name": "Logica Sticky Piston"
+        "Name": "GateForge Piston"
     },
     "Categories": [
         "Blocks.Mechanism"
@@ -11,7 +11,7 @@
         "CustomModel": "Blocks/InteractiveBlocks/Piston/Piston.blockymodel",
         "CustomModelTexture": [
             {
-                "Texture": "Blocks/InteractiveBlocks/Piston/Piston_Sticky.png"
+                "Texture": "Blocks/InteractiveBlocks/Piston/Piston.png"
             }
         ],
         "HitboxType": "Full",
@@ -21,25 +21,21 @@
         "State": {
             "Definitions": {
                 "Extended": {
-                    "CustomModel": "Blocks/InteractiveBlocks/Piston/PistonExtended.blockymodel",
-                    "CustomModelTexture": [
-                        {
-                            "Texture": "Blocks/InteractiveBlocks/Piston/Piston_Sticky.png"
-                        }
-                    ]
+                    "CustomModel": "Blocks/InteractiveBlocks/Piston/PistonExtended.blockymodel"
                 }
             }
         }
     },
-    "Icon": "Icons/Items/logica_piston_sticky.png",
+    "Icon": "Icons/Items/gateforge_piston.png",
     "PlayerAnimationsId": "Block",
     "MaxStack": 64,
     "Recipe": {
         "TimeSeconds": 0,
         "OutputQuantity": 1,
         "Input": [
-            { "ItemId": "logica_piston", "Quantity": 1 },
-            { "ItemId": "Ingredient_Tree_Sap", "Quantity": 1 }
+            { "ItemId": "Rock_Stone_Cobble", "Quantity": 5 },
+            { "ItemId": "Ingredient_Bar_Copper", "Quantity": 1 },
+            { "ItemId": "Wood_Hardwood_Planks", "Quantity": 3 }
         ],
         "BenchRequirement": [
             {

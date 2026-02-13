@@ -60,7 +60,7 @@ public abstract class Gate extends NetComp {
             Vector3i outputPos = new Vector3i(getPosition().x + outputDir.x,
                     getPosition().y + outputDir.y,
                     getPosition().z + outputDir.z);
-            LogicaLogger.debug("[Logica][Gate] %s state=%s outputDir=%s outputPos=%s",
+            LogicaLogger.debug("[GateForge][Gate] %s state=%s outputDir=%s outputPos=%s",
                     getClass().getSimpleName(), shouldBeActive, outputDir, outputPos);
             notifyNeighbors(world);
         }
@@ -123,7 +123,7 @@ public abstract class Gate extends NetComp {
                     nm.enqueueUpdate(neighbor);
             }
         } catch (Exception e) {
-            LogicaLogger.warn("[Logica][Gate] notifyNeighbors output-face propagation failed: %s", e);
+            LogicaLogger.warn("[GateForge][Gate] notifyNeighbors output-face propagation failed: %s", e);
         }
     }
 
@@ -142,7 +142,7 @@ public abstract class Gate extends NetComp {
                 getPosition().y + outputDir.y,
                 getPosition().z + outputDir.z);
         LogicaLogger.debug(
-                "[Logica][GateDebug] %s isProvidingPowerTo pos=%s neighbor=%s rot=%d outputDir=%s outputPos=%s",
+                "[GateForge][GateDebug] %s isProvidingPowerTo pos=%s neighbor=%s rot=%d outputDir=%s outputPos=%s",
                 getClass().getSimpleName(), getPosition(), neighborPos, state.rotation(),
                 outputDir, outputPos);
         return NetCompHelper.samePos(neighborPos, outputPos);
@@ -170,7 +170,7 @@ public abstract class Gate extends NetComp {
                 getPosition().y + outputDir.y,
                 getPosition().z + outputDir.z);
         LogicaLogger.debug(
-                "[Logica][GateDebug] %s getOutputs pos=%s rot=%d outputDir=%s outputPos=%s",
+                "[GateForge][GateDebug] %s getOutputs pos=%s rot=%d outputDir=%s outputPos=%s",
                 getClass().getSimpleName(), getPosition(), state.rotation(),
                 outputDir, outputPos);
         return List.of(outputPos);
@@ -197,7 +197,7 @@ public abstract class Gate extends NetComp {
                 int rot = accessor.getRotationIndex(getPosition());
                 this.state = state.withRotation(rot);
                 Orientation worldFacing = Orientation.fromRotationIndex(rot);
-                LogicaLogger.info("[Logica][Gate] %s rotation=%d facing=%s pos=%s",
+                LogicaLogger.info("[GateForge][Gate] %s rotation=%d facing=%s pos=%s",
                         getClass().getSimpleName(), rot, worldFacing, getPosition());
             }
         } catch (Exception ignored) {

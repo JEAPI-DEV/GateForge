@@ -55,7 +55,7 @@ public class PressurePlate extends PowerProvider {
                 int rot = accessor.getRotationIndex(getPosition());
                 this.state = state.withRotation(rot);
                 LogicaLogger.info(
-                        "[Logica][PressurePlate] rotation=%d facing=%s pos=%s",
+                        "[GateForge][PressurePlate] rotation=%d facing=%s pos=%s",
                         rot, com.logica.vars.Orientation.fromRotationIndex(rot), getPosition());
             }
         } catch (Exception ignored) {

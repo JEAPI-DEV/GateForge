@@ -139,7 +139,7 @@ public class LogicaPressurePlateManager implements Runnable {
                 }
 
             } catch (Exception ex) {
-                LogicaLogger.error("[Logica][Plate] Error in run: %s", ex.toString());
+                LogicaLogger.error("[GateForge][Plate] Error in run: %s", ex.toString());
             }
         });
     }
@@ -159,7 +159,7 @@ public class LogicaPressurePlateManager implements Runnable {
             if (comp instanceof PowerProvider pp)
                 pp.updateOutput(world, true);
         } catch (Exception e) {
-            LogicaLogger.warn("[Logica][Plate] Failed to activate at %s : %s", pos, e.toString());
+            LogicaLogger.warn("[GateForge][Plate] Failed to activate at %s : %s", pos, e.toString());
         }
     }
 
@@ -172,7 +172,7 @@ public class LogicaPressurePlateManager implements Runnable {
             if (comp instanceof PowerProvider pp)
                 pp.updateOutput(world, false);
         } catch (Exception e) {
-            LogicaLogger.warn("[Logica][Plate] Failed to deactivate at %s : %s", pos, e.toString());
+            LogicaLogger.warn("[GateForge][Plate] Failed to deactivate at %s : %s", pos, e.toString());
         }
     }
 }

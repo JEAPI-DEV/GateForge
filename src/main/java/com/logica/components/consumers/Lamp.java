@@ -26,7 +26,7 @@ public class Lamp extends Consumer {
     protected void calculateNewState(World world, com.logica.components.core.NetComp caller) {
         boolean shouldBeActive = isPowered(world);
         LogicaLogger.debug(
-                "[Logica][LampDebug] calc pos=%s sources=%d shouldBeActive=%s",
+                "[GateForge][LampDebug] calc pos=%s sources=%d shouldBeActive=%s",
                 getPosition(), state.activeSources().size(), shouldBeActive);
         applyStateChange(world, shouldBeActive);
     }

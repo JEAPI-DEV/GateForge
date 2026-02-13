@@ -1,10 +1,14 @@
 {
   "Group": "com.logica",
-  "Name": "Logica",
+  "Name": "GateForge",
   "Version": "0.1.0",
   "Description": "A redstone-like logic mod for Hytale",
-  "Authors": [{ "Name": "jeapi" }],
-  "Website": "https://github.com/jeapi/Logica",
+  "Authors": [
+    {
+      "Name": "jeapi"
+    }
+  ],
+  "Website": "https://github.com/JEAPI-DEV/GateForge",
   "ServerVersion": "*",
   "OptionalDependencies": {},
   "DisabledByDefault": false,

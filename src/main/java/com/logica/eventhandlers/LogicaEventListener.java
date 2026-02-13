@@ -19,7 +19,7 @@ public class LogicaEventListener {
             if (comp == null)
                 return;
         } catch (Exception e) {
-            LogicaLogger.warn("[Logica] Problem with the Eventlistener: " + e);
+            LogicaLogger.warn("[GateForge] Problem with the Eventlistener: " + e);
         }
     }
 
@@ -58,7 +58,7 @@ public class LogicaEventListener {
         }
 
         if (comp != null) {
-            LogicaLogger.debug("[Logica] Interacting with component at " + pos + " (type: "
+            LogicaLogger.debug("[GateForge] Interacting with component at " + pos + " (type: "
                     + comp.getClass().getSimpleName() + ")");
             comp.onInteract(world);
         }

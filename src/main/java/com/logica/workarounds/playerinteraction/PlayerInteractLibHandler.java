@@ -43,7 +43,7 @@ public class PlayerInteractLibHandler implements Flow.Subscriber<PlayerInteracti
             PlayerInteractLib lib = PlayerInteractLib.getInstance();
             return lib;
         } catch (Exception e) {
-            // LOGGER.atWarning().log("[Logica] Error accessing PlayerInteractLib: " +
+            // LOGGER.atWarning().log("[GateForge] Error accessing PlayerInteractLib: " +
             // e.getMessage());
             return null;
         }
@@ -52,7 +52,7 @@ public class PlayerInteractLibHandler implements Flow.Subscriber<PlayerInteracti
     @Override
     public void onSubscribe(Flow.Subscription subscription) {
         subscription.request(Long.MAX_VALUE);
-        // LOGGER.atInfo().log("[Logica] Subscribed to PlayerInteractionEvent stream");
+        // LOGGER.atInfo().log("[GateForge] Subscribed to PlayerInteractionEvent stream");
     }
 
     @Override
@@ -60,7 +60,7 @@ public class PlayerInteractLibHandler implements Flow.Subscriber<PlayerInteracti
         try {
             handleInteractionEvent(event);
         } catch (Exception e) {
-            // LOGGER.atWarning().log("[Logica] Error handling interaction event: " +
+            // LOGGER.atWarning().log("[GateForge] Error handling interaction event: " +
             // e.getMessage());
             e.printStackTrace();
         }
@@ -68,14 +68,14 @@ public class PlayerInteractLibHandler implements Flow.Subscriber<PlayerInteracti
 
     @Override
     public void onError(Throwable throwable) {
-        // LOGGER.atWarning().log("[Logica] Error in PlayerInteractionEvent stream: " +
+        // LOGGER.atWarning().log("[GateForge] Error in PlayerInteractionEvent stream: " +
         // throwable.getMessage());
         throwable.printStackTrace();
     }
 
     @Override
     public void onComplete() {
-        // LOGGER.atInfo().log("[Logica] PlayerInteractionEvent stream completed");
+        // LOGGER.atInfo().log("[GateForge] PlayerInteractionEvent stream completed");
     }
 
     /**
@@ -101,7 +101,7 @@ public class PlayerInteractLibHandler implements Flow.Subscriber<PlayerInteracti
             var blockPos = chain.data.blockPosition;
             Vector3i pos = new Vector3i(blockPos.x, blockPos.y, blockPos.z);
 
-            // LOGGER.atInfo().log("[Logica] Interaction at position: " + pos);
+            // LOGGER.atInfo().log("[GateForge] Interaction at position: " + pos);
 
             // Get the world and forward to event listener
             World world = Universe.get().getDefaultWorld();
@@ -109,11 +109,11 @@ public class PlayerInteractLibHandler implements Flow.Subscriber<PlayerInteracti
                 // Check if it's a lever block at this position
                 world.execute(() -> {
                     try {
-                        // HytaleLogger.getLogger().atInfo().log("[Logica][PlayerInteractLib] Handling
+                        // HytaleLogger.getLogger().atInfo().log("[GateForge][PlayerInteractLib] Handling
                         // interaction at " + pos);
                         eventListener.onBlockInteract(world, pos);
                     } catch (Exception e) {
-                        // LOGGER.atWarning().log("[Logica] Error in onBlockInteract: " +
+                        // LOGGER.atWarning().log("[GateForge] Error in onBlockInteract: " +
                         // e.getMessage());
                         e.printStackTrace();
                     }

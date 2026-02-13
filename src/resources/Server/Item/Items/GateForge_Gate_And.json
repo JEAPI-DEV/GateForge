@@ -1,6 +1,6 @@
 {
     "TranslationProperties": {
-        "Name": "Logica Gate (AND)"
+        "Name": "GateForge Gate (AND)"
     },
     "Categories": [
         "Blocks.Mechanism"
@@ -8,10 +8,10 @@
     "BlockType": {
         "Material": "Solid",
         "DrawType": "Model",
-        "CustomModel": "Blocks/Logic/Gate/And/logica_gate_and_SN.blockymodel",
+        "CustomModel": "Blocks/Logic/Gate/And/gateforge_gate_and_SN.blockymodel",
         "CustomModelTexture": [
             {
-                "Texture": "Blocks/Logic/Gate/And/logica_gate_and.png"
+                "Texture": "Blocks/Logic/Gate/And/gateforge_gate_and.png"
             }
         ],
         "HitboxType": "Block_Flat",
@@ -21,11 +21,11 @@
         "Gathering": {
             "Breaking": {
                 "GatherType": "SoftBlocks",
-                "ItemId": "logica_gate_and"
+                "ItemId": "gateforge_gate_and"
             }
         }
     },
-    "Icon": "Icons/Items/logica_gate_and.png",
+    "Icon": "Icons/Items/gateforge_gate_and.png",
     "PlayerAnimationsId": "Block",
     "MaxStack": 64,
     "ItemLevel": 10,

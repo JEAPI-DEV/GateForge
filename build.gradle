@@ -76,7 +76,7 @@ java {
 shadowJar {
     archiveClassifier.set('')
     destinationDirectory = file('server/mods')
-    archiveFileName = 'Logica.jar'
+    archiveFileName = 'GateForge.jar'
     // Exclude server classes from the final JAR
     dependencies {
         exclude(dependency { it.moduleGroup == 'com.hypixel' })

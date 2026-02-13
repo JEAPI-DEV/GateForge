@@ -1,6 +1,6 @@
 {
     "TranslationProperties": {
-        "Name": "Logica Lever"
+        "Name": "GateForge Lever"
     },
     "Categories": [
         "Blocks.Mechanism"
@@ -16,10 +16,10 @@
     "BlockType": {
         "Material": "Solid",
         "DrawType": "Model",
-        "CustomModel": "Blocks/InteractiveBlocks/Lever/logica_lever_off.blockymodel",
+        "CustomModel": "Blocks/InteractiveBlocks/Lever/gateforge_lever_off.blockymodel",
         "CustomModelTexture": [
             {
-                "Texture": "Blocks/InteractiveBlocks/Lever/logica_lever.png"
+                "Texture": "Blocks/InteractiveBlocks/Lever/gateforge_lever.png"
             }
         ],
         "HitboxType": "Block_Flat",
@@ -32,10 +32,10 @@
         "State": {
             "Definitions": {
                 "Active": {
-                    "CustomModel": "Blocks/InteractiveBlocks/Lever/logica_lever_on.blockymodel",
+                    "CustomModel": "Blocks/InteractiveBlocks/Lever/gateforge_lever_on.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/InteractiveBlocks/Lever/logica_lever.png"
+                            "Texture": "Blocks/InteractiveBlocks/Lever/gateforge_lever.png"
                         }
                     ]
                 }
@@ -49,7 +49,7 @@
         "Primary": "Block_Primary",
         "Secondary": "Block_Secondary"
     },
-    "Icon": "Icons/Items/logica_lever.png",
+    "Icon": "Icons/Items/gateforge_lever.png",
     "PlayerAnimationsId": "Block",
     "MaxStack": 64,
     "IconProperties": {

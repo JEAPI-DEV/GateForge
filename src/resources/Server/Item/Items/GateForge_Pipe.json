@@ -1,6 +1,6 @@
 {
     "TranslationProperties": {
-        "Name": "Logica Pipe"
+        "Name": "GateForge Pipe"
     },
     "Categories": [
         "Blocks.Mechanism"
@@ -8,10 +8,10 @@
     "BlockType": {
         "Material": "Solid",
         "DrawType": "Model",
-        "CustomModel": "Blocks/PIPES/2way/logica_pipe_2way_NS.blockymodel",
+        "CustomModel": "Blocks/PIPES/2way/gateforge_pipe_2way_NS.blockymodel",
         "CustomModelTexture": [
             {
-                "Texture": "Blocks/PIPES/2way/logica_pipe_2way.png"
+                "Texture": "Blocks/PIPES/2way/gateforge_pipe_2way.png"
             }
         ],
         "HitboxType": "Block_Flat",
@@ -20,178 +20,178 @@
         "State": {
             "Definitions": {
                 "Straight": {
-                    "CustomModel": "Blocks/PIPES/2way/logica_pipe_2way_NS.blockymodel",
+                    "CustomModel": "Blocks/PIPES/2way/gateforge_pipe_2way_NS.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/2way/logica_pipe_2way.png"
+                            "Texture": "Blocks/PIPES/2way/gateforge_pipe_2way.png"
                         }
                     ]
                 },
                 "Straight_VN": {
-                    "CustomModel": "Blocks/PIPES/2way/logica_pipe_2way_NS_VN.blockymodel",
+                    "CustomModel": "Blocks/PIPES/2way/gateforge_pipe_2way_NS_VN.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/2way/logica_pipe_2way.png"
+                            "Texture": "Blocks/PIPES/2way/gateforge_pipe_2way.png"
                         }
                     ]
                 },
                 "Straight_VN_VS": {
-                    "CustomModel": "Blocks/PIPES/2way/logica_pipe_2way_NS_VN_VS.blockymodel",
+                    "CustomModel": "Blocks/PIPES/2way/gateforge_pipe_2way_NS_VN_VS.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/2way/logica_pipe_2way.png"
+                            "Texture": "Blocks/PIPES/2way/gateforge_pipe_2way.png"
                         }
                     ]
                 },
                 "Corner": {
-                    "CustomModel": "Blocks/PIPES/Lway/logica_pipe_2L_NE.blockymodel",
+                    "CustomModel": "Blocks/PIPES/Lway/gateforge_pipe_2L_NE.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/Lway/logica_pipe_2L.png"
+                            "Texture": "Blocks/PIPES/Lway/gateforge_pipe_2L.png"
                         }
                     ]
                 },
                 "Corner_VN": {
-                    "CustomModel": "Blocks/PIPES/Lway/logica_pipe_2L_NE_VN.blockymodel",
+                    "CustomModel": "Blocks/PIPES/Lway/gateforge_pipe_2L_NE_VN.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/Lway/logica_pipe_2L.png"
+                            "Texture": "Blocks/PIPES/Lway/gateforge_pipe_2L.png"
                         }
                     ]
                 },
                 "Corner_VE": {
-                    "CustomModel": "Blocks/PIPES/Lway/logica_pipe_2L_NE_VE.blockymodel",
+                    "CustomModel": "Blocks/PIPES/Lway/gateforge_pipe_2L_NE_VE.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/Lway/logica_pipe_2L.png"
+                            "Texture": "Blocks/PIPES/Lway/gateforge_pipe_2L.png"
                         }
                     ]
                 },
                 "Corner_VN_VE": {
-                    "CustomModel": "Blocks/PIPES/Lway/logica_pipe_2L_NE_VN_VE.blockymodel",
+                    "CustomModel": "Blocks/PIPES/Lway/gateforge_pipe_2L_NE_VN_VE.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/Lway/logica_pipe_2L.png"
+                            "Texture": "Blocks/PIPES/Lway/gateforge_pipe_2L.png"
                         }
                     ]
                 },
                 "ThreeWay": {
-                    "CustomModel": "Blocks/PIPES/3way/logica_pipe_3_NES.blockymodel",
+                    "CustomModel": "Blocks/PIPES/3way/gateforge_pipe_3_NES.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/3way/logica_pipe_3.png"
+                            "Texture": "Blocks/PIPES/3way/gateforge_pipe_3.png"
                         }
                     ]
                 },
                 "ThreeWay_VN": {
-                    "CustomModel": "Blocks/PIPES/3way/logica_pipe_3_NES_VN.blockymodel",
+                    "CustomModel": "Blocks/PIPES/3way/gateforge_pipe_3_NES_VN.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/3way/logica_pipe_3.png"
+                            "Texture": "Blocks/PIPES/3way/gateforge_pipe_3.png"
                         }
                     ]
                 },
                 "ThreeWay_VE": {
-                    "CustomModel": "Blocks/PIPES/3way/logica_pipe_3_NES_VE.blockymodel",
+                    "CustomModel": "Blocks/PIPES/3way/gateforge_pipe_3_NES_VE.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/3way/logica_pipe_3.png"
+                            "Texture": "Blocks/PIPES/3way/gateforge_pipe_3.png"
                         }
                     ]
                 },
                 "ThreeWay_VS": {
-                    "CustomModel": "Blocks/PIPES/3way/logica_pipe_3_NES_VS.blockymodel",
+                    "CustomModel": "Blocks/PIPES/3way/gateforge_pipe_3_NES_VS.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/3way/logica_pipe_3.png"
+                            "Texture": "Blocks/PIPES/3way/gateforge_pipe_3.png"
                         }
                     ]
                 },
                 "ThreeWay_VN_VE": {
-                    "CustomModel": "Blocks/PIPES/3way/logica_pipe_3_NES_VN_VE.blockymodel",
+                    "CustomModel": "Blocks/PIPES/3way/gateforge_pipe_3_NES_VN_VE.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/3way/logica_pipe_3.png"
+                            "Texture": "Blocks/PIPES/3way/gateforge_pipe_3.png"
                         }
                     ]
                 },
                 "ThreeWay_VS_VW": {
-                    "CustomModel": "Blocks/PIPES/3way/logica_pipe_3_NES_VS_VW.blockymodel",
+                    "CustomModel": "Blocks/PIPES/3way/gateforge_pipe_3_NES_VS_VW.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/3way/logica_pipe_3.png"
+                            "Texture": "Blocks/PIPES/3way/gateforge_pipe_3.png"
                         }
                     ]
                 },
                 "ThreeWay_VN_VS": {
-                    "CustomModel": "Blocks/PIPES/3way/logica_pipe_3_NES_VN_VS.blockymodel",
+                    "CustomModel": "Blocks/PIPES/3way/gateforge_pipe_3_NES_VN_VS.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/3way/logica_pipe_3.png"
+                            "Texture": "Blocks/PIPES/3way/gateforge_pipe_3.png"
                         }
                     ]
                 },
                 "ThreeWay_VE_VS": {
-                    "CustomModel": "Blocks/PIPES/3way/logica_pipe_3_NES_VN_VE.blockymodel",
+                    "CustomModel": "Blocks/PIPES/3way/gateforge_pipe_3_NES_VN_VE.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/3way/logica_pipe_3.png"
+                            "Texture": "Blocks/PIPES/3way/gateforge_pipe_3.png"
                         }
                     ]
                 },
                 "ThreeWay_VN_VE_VS": {
-                    "CustomModel": "Blocks/PIPES/3way/logica_pipe_3_NES_VN_VE_VS.blockymodel",
+                    "CustomModel": "Blocks/PIPES/3way/gateforge_pipe_3_NES_VN_VE_VS.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/3way/logica_pipe_3.png"
+                            "Texture": "Blocks/PIPES/3way/gateforge_pipe_3.png"
                         }
                     ]
                 },
                 "FourWay": {
-                    "CustomModel": "Blocks/PIPES/4way/logica_pipe_4.blockymodel",
+                    "CustomModel": "Blocks/PIPES/4way/gateforge_pipe_4.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/4way/logica_pipe_4way.png"
+                            "Texture": "Blocks/PIPES/4way/gateforge_pipe_4way.png"
                         }
                     ]
                 },
                 "FourWay_VN": {
-                    "CustomModel": "Blocks/PIPES/4way/logica_pipe_4_VN.blockymodel",
+                    "CustomModel": "Blocks/PIPES/4way/gateforge_pipe_4_VN.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/4way/logica_pipe_4way.png"
+                            "Texture": "Blocks/PIPES/4way/gateforge_pipe_4way.png"
                         }
                     ]
                 },
                 "FourWay_VN_VE": {
-                    "CustomModel": "Blocks/PIPES/4way/logica_pipe_4_VN_VE.blockymodel",
+                    "CustomModel": "Blocks/PIPES/4way/gateforge_pipe_4_VN_VE.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/4way/logica_pipe_4way.png"
+                            "Texture": "Blocks/PIPES/4way/gateforge_pipe_4way.png"
                         }
                     ]
                 },
                 "FourWay_VN_VS": {
-                    "CustomModel": "Blocks/PIPES/4way/logica_pipe_4_VN_VS.blockymodel",
+                    "CustomModel": "Blocks/PIPES/4way/gateforge_pipe_4_VN_VS.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/4way/logica_pipe_4way.png"
+                            "Texture": "Blocks/PIPES/4way/gateforge_pipe_4way.png"
                         }
                     ]
                 },
                 "FourWay_VN_VE_VS": {
-                    "CustomModel": "Blocks/PIPES/4way/logica_pipe_4_VN_VE_VS.blockymodel",
+                    "CustomModel": "Blocks/PIPES/4way/gateforge_pipe_4_VN_VE_VS.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/4way/logica_pipe_4way.png"
+                            "Texture": "Blocks/PIPES/4way/gateforge_pipe_4way.png"
                         }
                     ]
                 },
                 "FourWay_VN_VE_VS_VW": {
-                    "CustomModel": "Blocks/PIPES/4way/logica_pipe_4_VN_VE_VS_VW.blockymodel",
+                    "CustomModel": "Blocks/PIPES/4way/gateforge_pipe_4_VN_VE_VS_VW.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/PIPES/4way/logica_pipe_4way.png"
+                            "Texture": "Blocks/PIPES/4way/gateforge_pipe_4way.png"
                         }
                     ]
                 }
@@ -199,7 +199,7 @@
         },
         "VariantRotation": "All"
     },
-    "Icon": "Icons/Items/logica_pipe_2way.png",
+    "Icon": "Icons/Items/gateforge_pipe_2way.png",
     "PlayerAnimationsId": "Block",
     "MaxStack": 64,
     "Recipe": {

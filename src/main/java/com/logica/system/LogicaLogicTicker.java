@@ -32,11 +32,11 @@ public class LogicaLogicTicker implements Runnable {
                 try {
                     ticker.tick(world);
                 } catch (Exception e) {
-                    LogicaLogger.warn("[Logica][Ticker] Error in processUpdates: " + e.getMessage());
+                    LogicaLogger.warn("[GateForge][Ticker] Error in processUpdates: " + e.getMessage());
                 }
             });
         } catch (Exception e) {
-            LogicaLogger.warn("[Logica][Ticker] Critical error in Ticker thread: " + e.getMessage());
+            LogicaLogger.warn("[GateForge][Ticker] Critical error in Ticker thread: " + e.getMessage());
         }
     }
 }

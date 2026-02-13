@@ -71,7 +71,7 @@ public class DefaultComponentRegistry implements ComponentRegistry {
     public ILogicaComponent create(BlockId blockId, Vector3i pos, World world) {
         BiFunction<Vector3i, World, ILogicaComponent> factory = resolve(blockId);
         if (factory == null) {
-            LogicaLogger.warn("[Logica][Registry] No factory for blockId %s", blockId);
+            LogicaLogger.warn("[GateForge][Registry] No factory for blockId %s", blockId);
             return null;
         }
         return factory.apply(pos, world);

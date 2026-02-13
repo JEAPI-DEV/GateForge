@@ -49,7 +49,7 @@ public class StraightStrategy implements PipeShapeStrategy {
             rotation = (rotation == 0) ? 2 : 3;
             localVN = true;
             localVS = false;
-            LogicaLogger.debug("[Logica][Pipe] Normalizing Straight: rot %d -> %d", oldRot, rotation);
+            LogicaLogger.debug("[GateForge][Pipe] Normalizing Straight: rot %d -> %d", oldRot, rotation);
         }
 
         ShapeResult result = new ShapeResult(PipeShape.STRAIGHT, rotation);

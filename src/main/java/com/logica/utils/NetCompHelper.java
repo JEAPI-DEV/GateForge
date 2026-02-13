@@ -45,7 +45,7 @@ public class NetCompHelper {
                 }
             }
         } catch (Exception e) {
-            LogicaLogger.warn("[Logica][Gate] Error in BlockState Handler: " + e);
+            LogicaLogger.warn("[GateForge][Gate] Error in BlockState Handler: " + e);
         }
     }
 }

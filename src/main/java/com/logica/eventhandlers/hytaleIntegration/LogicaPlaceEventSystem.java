@@ -43,7 +43,7 @@ public class LogicaPlaceEventSystem extends EntityEventSystem<EntityStore, Place
                     return;
                 String id = bt.getId();
                 if (LogicaConstants.isLogicaComponent(bt)) {
-                    LogicaLogger.debug("[Logica] Block placed: " + id
+                    LogicaLogger.debug("[GateForge] Block placed: " + id
                             + " at (" + x + ", " + y + ", " + z + ")");
                     LogicaEventListener listener = LogicaMod.getInstance().getEventListener();
                     if (listener != null)

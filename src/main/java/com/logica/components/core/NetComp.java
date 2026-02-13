@@ -75,7 +75,7 @@ public abstract class NetComp implements ILogicaComponent {
 
         boolean logLamp = getClass().getSimpleName().equalsIgnoreCase("Lamp");
         if (logLamp) {
-            LogicaLogger.debug("[Logica][LampDebug] Refresh sources for %s", getPosition());
+            LogicaLogger.debug("[GateForge][LampDebug] Refresh sources for %s", getPosition());
         }
 
         for (Orientation orientation : Orientation.ALL) {
@@ -97,7 +97,7 @@ public abstract class NetComp implements ILogicaComponent {
                 boolean accepts = canAcceptInputFrom(neighborPos, orientation);
                 if (logLamp && providing) {
                     LogicaLogger.debug(
-                            "[Logica][LampDebug] source=%s pos=%s dir=%s active=%s provides=%s accepts=%s",
+                            "[GateForge][LampDebug] source=%s pos=%s dir=%s active=%s provides=%s accepts=%s",
                             netComp.getClass().getSimpleName(), neighborPos, orientation, netComp.isActive(),
                             providing, accepts);
                 }
@@ -114,7 +114,7 @@ public abstract class NetComp implements ILogicaComponent {
         boolean stateChanged = oldOn != state.isOn();
         if (sourcesChanged || stateChanged) {
             notifyNeighbors(world);
-            LogicaLogger.info("[Logica][NetComp] %s sources=%d pos=%s",
+            LogicaLogger.info("[GateForge][NetComp] %s sources=%d pos=%s",
                     getClass().getSimpleName(), newSources.size(), getPosition());
         }
     }

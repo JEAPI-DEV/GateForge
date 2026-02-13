@@ -27,7 +27,7 @@ public final class PipeShapeApplier {
 
             BlockType stateType = baseType.getBlockForState(result.getState());
             if (stateType == null) {
-                LogicaLogger.warn("[Logica][Pipe] No stateType for %s state=%s", position, result.getState());
+                LogicaLogger.warn("[GateForge][Pipe] No stateType for %s state=%s", position, result.getState());
                 return false;
             }
 
@@ -41,7 +41,7 @@ public final class PipeShapeApplier {
                     world.performBlockUpdate(position.getX(), position.getY(), position.getZ());
                 } catch (Throwable ignored) {
                 }
-                LogicaLogger.debug("[Logica][Pipe] Physically updated %s to %s (rot:%d)", position, result.getState(),
+                LogicaLogger.debug("[GateForge][Pipe] Physically updated %s to %s (rot:%d)", position, result.getState(),
                         engineRotation);
                 return true;
             }

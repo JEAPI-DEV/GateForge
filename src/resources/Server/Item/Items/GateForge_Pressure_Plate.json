@@ -1,6 +1,6 @@
 {
     "TranslationProperties": {
-        "Name": "Logica Gate (Buffer)"
+        "Name": "GateForge Pressure Plate"
     },
     "Categories": [
         "Blocks.Mechanism"
@@ -8,27 +8,31 @@
     "BlockType": {
         "Material": "Solid",
         "DrawType": "Model",
-        "CustomModel": "Blocks/Logic/Gate/Buffer/logica_gate_buffer_SN.blockymodel",
+        "CustomModel": "Blocks/InteractiveBlocks/PressurePlate/gateforge_pressure_plate.blockymodel",
         "CustomModelTexture": [
             {
-                "Texture": "Blocks/Logic/Gate/Buffer/logica_gate_buffer.png"
+                "Texture": "Blocks/InteractiveBlocks/PressurePlate/gateforge_pressure_plate.png"
             }
         ],
         "HitboxType": "Block_Flat",
-        "VariantRotation": "NESW",
         "BlockParticleSetId": "Stone",
-        "BlockSoundSetId": "Stone"
+        "BlockSoundSetId": "Stone",
+        "State": {
+            "Definitions": {
+                "Active": {
+                    "Translation": [0, -0.05, 0]
+                }
+            }
+        }
     },
-    "Icon": "Icons/Items/logica_gate_buffer.png",
+    "Icon": "Icons/Items/gateforge_pressure_plate.png",
     "PlayerAnimationsId": "Block",
     "MaxStack": 64,
-    "ItemLevel": 10,
     "Recipe": {
         "TimeSeconds": 0,
         "OutputQuantity": 1,
         "Input": [
-            { "ItemId": "Ingredient_Bar_Copper", "Quantity": 2 },
-            { "ItemId": "Rock_Stone_Cobble", "Quantity": 1 }
+            { "ItemId": "Rock_Stone_Cobble", "Quantity": 2 }
         ],
         "BenchRequirement": [
             {

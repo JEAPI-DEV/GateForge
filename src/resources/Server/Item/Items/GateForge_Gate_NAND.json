@@ -1,6 +1,6 @@
 {
     "TranslationProperties": {
-        "Name": "Logica Component (Clock)"
+        "Name": "GateForge Gate (NAND)"
     },
     "Categories": [
         "Blocks.Mechanism"
@@ -8,10 +8,10 @@
     "BlockType": {
         "Material": "Solid",
         "DrawType": "Model",
-        "CustomModel": "Blocks/Logic/Comp/CLOCK/logica_comp_clock.blockymodel",
+        "CustomModel": "Blocks/Logic/Gate/NAND/gateforge_gate_nand_SN.blockymodel",
         "CustomModelTexture": [
             {
-                "Texture": "Blocks/Logic/Comp/CLOCK/logica_comp_clock.png"
+                "Texture": "Blocks/Logic/Gate/NAND/gateforge_gate_nand.png"
             }
         ],
         "HitboxType": "Block_Flat",
@@ -21,11 +21,11 @@
         "Gathering": {
             "Breaking": {
                 "GatherType": "SoftBlocks",
-                "ItemId": "logica_comp_clock"
+                "ItemId": "gateforge_gate_NAND"
             }
         }
     },
-    "Icon": "Icons/Items/logica_comp_clock.png",
+    "Icon": "Icons/Items/gateforge_gate_nand.png",
     "PlayerAnimationsId": "Block",
     "MaxStack": 64,
     "ItemLevel": 10,
@@ -33,9 +33,8 @@
         "TimeSeconds": 0,
         "OutputQuantity": 1,
         "Input": [
-            { "ItemId": "Ingredient_Bar_Copper", "Quantity": 4 },
-            { "ItemId": "Rock_Stone_Cobble", "Quantity": 2 },
-            { "ItemId": "Ingredient_Bar_Gold", "Quantity": 4 }
+            { "ItemId": "Ingredient_Bar_Copper", "Quantity": 2 },
+            { "ItemId": "Rock_Stone_Cobble", "Quantity": 2 }
         ],
         "BenchRequirement": [
             {

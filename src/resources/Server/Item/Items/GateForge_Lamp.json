@@ -1,6 +1,6 @@
 {
     "TranslationProperties": {
-        "Name": "Logica Lamp"
+        "Name": "GateForge Lamp"
     },
     "Categories": [
         "Blocks.Mechanism"
@@ -8,10 +8,10 @@
     "BlockType": {
         "Material": "Solid",
         "DrawType": "Model",
-        "CustomModel": "Blocks/InteractiveBlocks/Lamp/logica_lamp_off.blockymodel",
+        "CustomModel": "Blocks/InteractiveBlocks/Lamp/gateforge_lamp_off.blockymodel",
         "CustomModelTexture": [
             {
-                "Texture": "Blocks/InteractiveBlocks/Lamp/logica_lamp_off.png"
+                "Texture": "Blocks/InteractiveBlocks/Lamp/gateforge_lamp_off.png"
             }
         ],
         "HitboxType": "Full",
@@ -28,17 +28,17 @@
                         "Radius": 15,
                         "Color": "#FFFFFF"
                     },
-                    "CustomModel": "Blocks/InteractiveBlocks/Lamp/logica_lamp_on.blockymodel",
+                    "CustomModel": "Blocks/InteractiveBlocks/Lamp/gateforge_lamp_on.blockymodel",
                     "CustomModelTexture": [
                         {
-                            "Texture": "Blocks/InteractiveBlocks/Lamp/logica_lamp_on.png"
+                            "Texture": "Blocks/InteractiveBlocks/Lamp/gateforge_lamp_on.png"
                         }
                     ]
                 }
             }
         }
     },
-    "Icon": "Icons/Items/logica_lamp_off.png",
+    "Icon": "Icons/Items/gateforge_lamp_off.png",
     "PlayerAnimationsId": "Block",
     "MaxStack": 64,
     "Recipe": {
