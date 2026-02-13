@@ -48,10 +48,6 @@ public abstract class Gate extends NetComp {
         List<Boolean> inputs = calculateLogicInputs(world);
         boolean shouldBeActive = evaluateLogic(inputs);
 
-        if (!shouldBeActive && hasStrongPowerOnInputs(world)) {
-            shouldBeActive = true;
-        }
-
         boolean previous = state.isOn();
         // Efficient state update using existing object
         this.state.setOn(shouldBeActive);
@@ -64,25 +60,6 @@ public abstract class Gate extends NetComp {
                     getClass().getSimpleName(), shouldBeActive, outputDir, outputPos);
             notifyNeighbors(world);
         }
-    }
-
-    /**
-     * Strong power is only accepted from solid blocks that sit on the gate's input
-     * faces.
-     * Side or output-face strong power is ignored to avoid unintended activation.
-     */
-    private boolean hasStrongPowerOnInputs(World world) {
-        if (world == null)
-            return false;
-
-        for (Vector3i dir : getInputDirections()) {
-            Vector3i neighborPos = offsetByWorldDir(dir);
-            // PowerUtil handles the "strong power check" logic
-            if (PowerUtil.isSolidBlockReceivingStrongPower(world, neighborPos, getPosition(), true)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
