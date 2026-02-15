@@ -24,7 +24,7 @@ public class Pipe extends Connector {
     private int lastRotation = -1;
 
     public Pipe(Vector3i position) {
-        super(position);
+        super(position, LogicaConstants.BlockId.PIPE);
     }
 
     @Override

@@ -22,6 +22,7 @@ public class LogicaMod extends JavaPlugin {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
     private static LogicaMod instance;
     private LogicaEventListener eventListener;
+    public static com.hypixel.hytale.component.ResourceType<com.hypixel.hytale.server.core.universe.world.storage.EntityStore, com.logica.network.LogicaPersistenceData> LOGICA_PERSISTENCE_RESOURCE;
 
     public LogicaMod(@Nonnull JavaPluginInit init) {
         super(init);
@@ -56,6 +57,11 @@ public class LogicaMod extends JavaPlugin {
             getScheduler().scheduleAtFixedRate(logicTicker, 0L, 50L, TimeUnit.MILLISECONDS);
 
             LogicaLogger.info("Logica mod setup complete!");
+
+            LOGICA_PERSISTENCE_RESOURCE = EntityModule.get().getEntityStoreRegistry()
+                    .registerResource(com.logica.network.LogicaPersistenceData.class, "LogicaData",
+                            com.logica.network.LogicaPersistenceData.CODEC);
+
         } catch (Exception e) {
             LogicaLogger.warn("Failed to setup Logica mod: " + e.getMessage());
         }

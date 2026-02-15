@@ -23,7 +23,7 @@ import java.util.List;
 public class Lever extends PowerProvider {
 
     public Lever(Vector3i position) {
-        super(position);
+        super(position, LogicaConstants.BlockId.PROVIDER_LEVER);
     }
 
     @Override

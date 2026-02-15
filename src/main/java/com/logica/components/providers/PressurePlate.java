@@ -4,6 +4,7 @@ import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.logica.vars.LogicaConstants;
 import com.logica.components.core.NeighborScanner;
 import com.logica.components.core.NetComp;
 import com.logica.components.core.PowerProvider;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class PressurePlate extends PowerProvider {
     public PressurePlate(Vector3i position) {
-        super(position);
+        super(position, LogicaConstants.BlockId.PROVIDER_PRESSURE_PLATE);
     }
 
     @Override

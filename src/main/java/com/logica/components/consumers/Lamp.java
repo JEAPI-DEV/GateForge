@@ -1,16 +1,18 @@
 package com.logica.components.consumers;
 
+import com.logica.components.core.NetComp;
 import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.core.NeighborScanner;
-import com.logica.utils.PowerUtil;
+
+import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
 import com.logica.workarounds.LogicaBlockAccessor;
 
 import java.util.List;
-
+import com.logica.vars.LogicaConstants;
 /**
  * Lamp implementation.
  * Visual indicator that lights up when powered.
@@ -19,11 +21,11 @@ import java.util.List;
 public class Lamp extends Consumer {
 
     public Lamp(Vector3i position) {
-        super(position);
+        super(position, LogicaConstants.BlockId.CONSUMER_LAMP);
     }
 
     @Override
-    protected void calculateNewState(World world, com.logica.components.core.NetComp caller) {
+    protected void calculateNewState(World world, NetComp caller) {
         boolean shouldBeActive = isPowered(world);
         LogicaLogger.debug(
                 "[GateForge][LampDebug] calc pos=%s sources=%d shouldBeActive=%s",

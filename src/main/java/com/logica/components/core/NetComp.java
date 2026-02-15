@@ -19,9 +19,16 @@ import java.util.Objects;
  */
 public abstract class NetComp implements ILogicaComponent {
     protected ComponentState state;
+    protected final LogicaConstants.BlockId blockId;
 
-    protected NetComp(Vector3i position) {
+    protected NetComp(Vector3i position, LogicaConstants.BlockId blockId) {
         this.state = new ComponentState(false, 0, position);
+        this.blockId = blockId;
+    }
+
+    @Override
+    public LogicaConstants.BlockId getBlockId() {
+        return blockId;
     }
 
     @Override
@@ -30,12 +37,25 @@ public abstract class NetComp implements ILogicaComponent {
     }
 
     public void setPosition(Vector3i pos) {
+        LogicaNetworkManager.getInstance().moveComponent(getPosition(), pos);
         state.setPos(pos);
     }
 
     @Override
     public boolean isActive() {
         return state.isOn();
+    }
+
+    public void setActive(boolean active) {
+        state.setOn(active);
+    }
+
+    public int getRotation() {
+        return state.rotation();
+    }
+
+    public void setRotation(int rotation) {
+        state.setRotation(rotation);
     }
 
     @Override

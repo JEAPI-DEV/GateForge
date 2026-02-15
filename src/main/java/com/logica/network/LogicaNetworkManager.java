@@ -8,16 +8,31 @@ import com.logica.system.LogicTicker;
 import com.logica.vars.LogicaConstants;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LogicaNetworkManager implements LogicTicker {
 
     private static LogicaNetworkManager instance;
     private static ComponentRegistry registry;
-    private static List<ILogicaComponent> storage = new ArrayList<>();
+    private static Map<Vector3i, ILogicaComponent> storage = new ConcurrentHashMap<>();
     private static Deque<ILogicaComponent> updateDeque = new ArrayDeque<>();
+    private boolean recovered = false;
+
+    public void setAllComponents(Map<Vector3i, ILogicaComponent> newComponents) {
+        storage.clear();
+        updateDeque.clear();
+        if (newComponents != null) {
+            storage.putAll(newComponents);
+            // Defer onRecover to first tick when world is available
+            recovered = false;
+        }
+    }
+
+    public Map<Vector3i, ILogicaComponent> getAllComponents() {
+        return new ConcurrentHashMap<>(storage);
+    }
 
     public static LogicaNetworkManager getInstance() {
         if (instance == null) {
@@ -27,10 +42,20 @@ public class LogicaNetworkManager implements LogicTicker {
         return instance;
     }
 
-    @Override
     public void tick(World world) {
         if (world == null)
             return;
+
+        if (!recovered) {
+            LogicaLogger.info("[GateForge][NM] Recovering " + storage.size() + " components...");
+            for (ILogicaComponent comp : storage.values()) {
+                comp.onRecover(world);
+                // Force refresh of activeSources to ensure graph connectivity is restored
+                comp.updateOutput(world, null);
+            }
+            recovered = true;
+        }
+
         if (updateDeque.isEmpty())
             return;
 
@@ -43,7 +68,7 @@ public class LogicaNetworkManager implements LogicTicker {
             ILogicaComponent comp = updateDeque.poll();
             if (comp == null)
                 break;
-            if (!storage.contains(comp))
+            if (!storage.containsValue(comp))
                 continue;
             comp.updateOutput(world, null);
             processed++;
@@ -66,7 +91,7 @@ public class LogicaNetworkManager implements LogicTicker {
         ILogicaComponent comp = registry.create(resolvedId, pos, world);
         if (comp == null)
             return null;
-        storage.add(comp);
+        storage.put(pos, comp);
         LogicaLogger.info("[GateForge][NM] Created/Recovered " + comp.getClass().getSimpleName() + " at " + pos);
         comp.onRecover(world);
         comp.onPlace(world);
@@ -77,8 +102,23 @@ public class LogicaNetworkManager implements LogicTicker {
     public void removeComponent(ILogicaComponent comp) {
         if (comp == null)
             return;
-        storage.remove(comp);
+        storage.remove(comp.getPosition());
         unqueue(comp);
+    }
+
+    public void moveComponent(Vector3i oldPos, Vector3i newPos) {
+        if (oldPos == null || newPos == null)
+            return;
+
+        ILogicaComponent comp = storage.remove(oldPos);
+        if (comp != null) {
+            if (storage.containsKey(newPos)) {
+                LogicaLogger.warn("[GateForge][NM] Force overwriting component at %s due to move from %s", newPos,
+                        oldPos);
+                storage.remove(newPos);
+            }
+            storage.put(newPos, comp);
+        }
     }
 
     public void enqueueUpdate(ILogicaComponent comp) {
@@ -95,20 +135,13 @@ public class LogicaNetworkManager implements LogicTicker {
     }
 
     public ILogicaComponent getComponentAt(Vector3i pos) {
-        for (ILogicaComponent comp : storage) {
-            Vector3i compPos = comp.getPosition();
-            if (compPos != null && pos != null
-                    && compPos.x == pos.x
-                    && compPos.y == pos.y
-                    && compPos.z == pos.z) {
-                return comp;
-            }
-        }
-        return null;
+        if (pos == null)
+            return null;
+        return storage.get(pos);
     }
 
     public boolean doesComponentExist(ILogicaComponent comp) {
-        return storage.contains(comp);
+        return storage.containsValue(comp);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.logica.components.gate;
 
 import com.hypixel.hytale.math.vector.Vector3i;
+import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
 
 import java.util.List;
@@ -13,8 +14,7 @@ import java.util.List;
  */
 public class NANDGate extends Gate {
     public NANDGate(Vector3i position) {
-        super(position);
-        // Robust NAND: only OFF if we have inputs and all are true.
+        super(position, LogicaConstants.BlockId.GATE_NAND);
         setStrategy(inputs -> {
             if (inputs.size() < 2)
                 return true;

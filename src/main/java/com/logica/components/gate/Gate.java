@@ -24,8 +24,8 @@ import static com.logica.utils.NetCompHelper.updateBlockState;
 public abstract class Gate extends NetComp {
     protected LogicStrategy strategy;
 
-    public Gate(Vector3i position) {
-        super(position);
+    public Gate(Vector3i position, LogicaConstants.BlockId blockId) {
+        super(position, blockId);
     }
 
     // public List<Vector3i> getConnections(World world) {

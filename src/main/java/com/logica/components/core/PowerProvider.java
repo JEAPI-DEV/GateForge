@@ -5,12 +5,13 @@ import com.hypixel.hytale.server.core.universe.world.World;
 
 public abstract class PowerProvider extends NetComp {
 
-    protected PowerProvider(Vector3i position) {
-        super(position);
+    protected PowerProvider(Vector3i position, com.logica.vars.LogicaConstants.BlockId blockId) {
+        super(position, blockId);
     }
 
-    public void updateOutput(World world, boolean state){
-        if(state == this.state.isOn()) return;
+    public void updateOutput(World world, boolean state) {
+        if (state == this.state.isOn())
+            return;
         this.state.setOn(state);
         notifyNeighbors(world);
     }

@@ -7,8 +7,9 @@ import com.logica.components.core.ILogicaComponent;
 import com.logica.components.core.NeighborScanner;
 import com.logica.components.core.NetComp;
 import com.logica.network.LogicaNetworkManager;
-import com.logica.utils.PowerUtil;
+
 import com.logica.vars.LogicaConstants;
+
 import com.logica.vars.Orientation;
 import com.logica.workarounds.LogicaBlockAccessor;
 
@@ -22,7 +23,7 @@ import java.util.List;
 public class Piston extends Consumer {
 
     public Piston(Vector3i position) {
-        super(position);
+        super(position, LogicaConstants.BlockId.CONSUMER_PISTON);
     }
 
     @Override
@@ -73,12 +74,15 @@ public class Piston extends Consumer {
                 break;
             }
 
-            if (i > 10) return false;
-            if (isUnpushable(pos, bt)) return false;
+            if (i > 10)
+                return false;
+            if (isUnpushable(pos, bt))
+                return false;
             blocksToMove.add(new BlockInfo(pos, bt, accessor.getRotationIndex(pos)));
         }
 
-        if (!foundGap) return false;
+        if (!foundGap)
+            return false;
 
         for (int i = blocksToMove.size() - 1; i >= 0; i--) {
             BlockInfo bi = blocksToMove.get(i);
@@ -111,7 +115,8 @@ public class Piston extends Consumer {
             ILogicaComponent comp = LogicaNetworkManager.getInstance()
                     .getComponentAt(pos);
 
-            if (comp != null && comp.isActive()) return true;
+            if (comp != null && comp.isActive())
+                return true;
         }
         return false;
     }

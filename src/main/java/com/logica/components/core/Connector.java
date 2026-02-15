@@ -2,14 +2,15 @@ package com.logica.components.core;
 
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.logica.vars.LogicaConstants;
 
 /**
  * Abstract class for components that primarily transport signals.
  * Inherits from LogicComponent.
  */
 public abstract class Connector extends NetComp {
-    public Connector(Vector3i position) {
-        super(position);
+    public Connector(Vector3i position, LogicaConstants.BlockId blockId) {
+        super(position, blockId);
     }
 
     public abstract void updateShape(World world);

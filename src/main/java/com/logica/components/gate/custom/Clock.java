@@ -5,6 +5,7 @@ import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.core.NetComp;
 import com.logica.network.LogicaNetworkManager;
+import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
 import com.logica.workarounds.LogicaBlockAccessor;
 
@@ -14,10 +15,19 @@ import java.util.List;
 public class Clock extends NetComp {
 
     private int tickCount = 0;
+
+    public int getTickCount() {
+        return tickCount;
+    }
+
+    public void setTickCount(int tickCount) {
+        this.tickCount = tickCount;
+    }
+
     private static final int TOGGLE_TICKS = 20; // Approx 1 second assuming 20 TPS
 
     public Clock(Vector3i position) {
-        super(position);
+        super(position, LogicaConstants.BlockId.COMP_CLOCK);
     }
 
     @Override

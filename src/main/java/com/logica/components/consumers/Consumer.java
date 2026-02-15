@@ -4,14 +4,16 @@ import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.core.NetComp;
 import com.logica.utils.PowerUtil;
+import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
 
 /**
- * Base class for consumers that need to update their visual state when power changes.
+ * Base class for consumers that need to update their visual state when power
+ * changes.
  */
 public abstract class Consumer extends NetComp {
-    protected Consumer(Vector3i position) {
-        super(position);
+    protected Consumer(Vector3i position, LogicaConstants.BlockId blockId) {
+        super(position, blockId);
     }
 
     /**
@@ -44,5 +46,3 @@ public abstract class Consumer extends NetComp {
         return false;
     }
 }
-
-

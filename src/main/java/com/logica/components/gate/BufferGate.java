@@ -1,6 +1,8 @@
 package com.logica.components.gate;
 
 import com.hypixel.hytale.math.vector.Vector3i;
+
+import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
 
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.List;
  */
 public class BufferGate extends Gate {
     public BufferGate(Vector3i position) {
-        super(position);
+        super(position, LogicaConstants.BlockId.GATE_BUFFER);
         setStrategy(inputs -> inputs != null && !inputs.isEmpty() && inputs.getFirst());
     }
 

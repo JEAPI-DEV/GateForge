@@ -4,6 +4,7 @@ import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.core.NetComp;
 import com.logica.components.gate.Gate;
+import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
 import com.logica.workarounds.LogicaBlockAccessor;
 
@@ -13,8 +14,16 @@ public class DFF extends Gate {
 
     private boolean lastClockState = false;
 
+    public boolean isLastClockState() {
+        return lastClockState;
+    }
+
+    public void setLastClockState(boolean lastClockState) {
+        this.lastClockState = lastClockState;
+    }
+
     public DFF(Vector3i position) {
-        super(position);
+        super(position, LogicaConstants.BlockId.COMP_DFF);
     }
 
     @Override

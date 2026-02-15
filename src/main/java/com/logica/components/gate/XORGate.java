@@ -1,6 +1,8 @@
 package com.logica.components.gate;
 
 import com.hypixel.hytale.math.vector.Vector3i;
+
+import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
 
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.List;
  */
 public class XORGate extends Gate {
     public XORGate(Vector3i position) {
-        super(position);
+        super(position, LogicaConstants.BlockId.GATE_XOR);
         setStrategy(inputs -> {
             if (inputs == null)
                 return false;
