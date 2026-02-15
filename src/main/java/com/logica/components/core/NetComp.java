@@ -74,10 +74,25 @@ public abstract class NetComp implements ILogicaComponent {
 
     private void refreshSources(World world) {
         Map<NetComp, Orientation> oldSources = new HashMap<>(state.activeSources());
-        Map<NetComp, Orientation> newSources = new HashMap<>();
-        LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
+        Map<NetComp, Orientation> newSources = getCardinalSources(world);
 
+        boolean oldOn = state.isOn();
+        state.setActiveSources(newSources);
+        calculateNewState(world, null);
+        boolean sourcesChanged = !oldSources.equals(newSources);
+        boolean stateChanged = oldOn != state.isOn();
+        if (sourcesChanged || stateChanged) {
+            notifyNeighbors(world);
+            LogicaLogger.info("[GateForge][NetComp] %s sources=%d pos=%s",
+                    getClass().getSimpleName(), newSources.size(), getPosition());
+        }
+    }
+
+    protected Map<NetComp, Orientation> getCardinalSources(World world) {
+        Map<NetComp, Orientation> sources = new HashMap<>();
+        LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
         boolean logLamp = getClass().getSimpleName().equalsIgnoreCase("Lamp");
+
         if (logLamp) {
             LogicaLogger.debug("[GateForge][LampDebug] Refresh sources for %s", getPosition());
         }
@@ -106,21 +121,11 @@ public abstract class NetComp implements ILogicaComponent {
                             providing, accepts);
                 }
                 if (providing && accepts) {
-                    newSources.put(netComp, orientation);
+                    sources.put(netComp, orientation);
                 }
             }
         }
-
-        boolean oldOn = state.isOn();
-        state.setActiveSources(newSources);
-        calculateNewState(world, null);
-        boolean sourcesChanged = !oldSources.equals(newSources);
-        boolean stateChanged = oldOn != state.isOn();
-        if (sourcesChanged || stateChanged) {
-            notifyNeighbors(world);
-            LogicaLogger.info("[GateForge][NetComp] %s sources=%d pos=%s",
-                    getClass().getSimpleName(), newSources.size(), getPosition());
-        }
+        return sources;
     }
 
     protected abstract void calculateNewState(World world, NetComp caller);
@@ -172,35 +177,15 @@ public abstract class NetComp implements ILogicaComponent {
     @Override
     public void onPlace(World world) {
         updateOutput(world, null);
-
-        // Explicitly update neighbor shapes on placement
-        // This ensures pipes visually connect to the new component immediately
-        LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
-        for (Orientation orientation : Orientation.ALL) {
-            Vector3i offset = orientation.getDirection();
-            Vector3i neighborPos = new Vector3i(getPosition().x + offset.x,
-                    getPosition().y + offset.y,
-                    getPosition().z + offset.z);
-
-            ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
-            if (neighbor instanceof com.logica.components.pipes.Pipe pipe) {
-                pipe.updateShape(world);
-            }
-        }
-
-        // Also check diagonal neighbors for Pipe connections (Step-Up/Down)
-        for (Vector3i neighborPos : NeighborScanner.pipeVerticalDiagonals(getPosition())) {
-            ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
-            if (neighbor instanceof com.logica.components.pipes.Pipe pipe) {
-                pipe.updateShape(world);
-            }
-        }
+        updateNeighborShapes(world);
     }
 
     @Override
     public void onBreak(World world) {
-        // Explicitly update neighbor shapes on break
-        // This ensures pipes visually disconnect when a component is removed
+        updateNeighborShapes(world);
+    }
+
+    protected void updateNeighborShapes(World world) {
         LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
         for (Orientation orientation : Orientation.ALL) {
             Vector3i offset = orientation.getDirection();

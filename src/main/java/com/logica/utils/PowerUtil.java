@@ -5,6 +5,7 @@ import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.core.ILogicaComponent;
 import com.logica.network.LogicaNetworkManager;
+import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class PowerUtil {
         BlockType targetBt = world.getBlockType(target);
         if (!NetCompHelper.isBlockSolid(targetBt))
             return false;
-        if (targetBt != null && com.logica.vars.LogicaConstants.isLogicaBlock(targetBt.getId()))
+        if (LogicaConstants.isLogicaBlock(targetBt.getId()))
             return false;
 
         LogicaNetworkManager nm = LogicaNetworkManager.getInstance();

@@ -12,7 +12,9 @@ import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Pull-model pipe implementation with multi-source tracking.
@@ -59,33 +61,11 @@ public class Pipe extends Connector {
     }
 
     private void refreshAllSources(World world) {
-        java.util.Map<NetComp, Orientation> oldSources = new java.util.HashMap<>(state.activeSources());
-        java.util.Map<NetComp, Orientation> newSources = new java.util.HashMap<>();
+        Map<NetComp, Orientation> oldSources = new HashMap<>(state.activeSources());
         LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
 
         // 1. Check Cardinal Neighbors (Logic from NetComp)
-        for (Orientation orientation : Orientation.ALL) {
-            Vector3i offset = orientation.getDirection();
-            Vector3i neighborPos = new Vector3i(getPosition().x + offset.x,
-                    getPosition().y + offset.y,
-                    getPosition().z + offset.z);
-
-            ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
-            if (neighbor == null) {
-                BlockType bt = world.getBlockType(neighborPos);
-                if (LogicaConstants.isLogicaComponent(bt)) {
-                    neighbor = nm.createComponentForId(neighborPos, bt.getId(), world);
-                }
-            }
-
-            if (neighbor instanceof NetComp netComp) {
-                boolean providing = netComp.isActive() && netComp.isProvidingPowerTo(getPosition());
-                boolean accepts = canAcceptInputFrom(neighborPos, orientation);
-                if (providing && accepts) {
-                    newSources.put(netComp, orientation);
-                }
-            }
-        }
+        Map<NetComp, Orientation> newSources = getCardinalSources(world);
 
         // 2. Check Diagonal Neighbors (Pipe Step-up Logic)
         for (Vector3i neighborPos : NeighborScanner.pipeVerticalDiagonals(getPosition())) {
