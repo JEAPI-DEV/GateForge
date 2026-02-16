@@ -6,6 +6,7 @@ import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.misc.ComponentState;
 import com.logica.network.LogicaNetworkManager;
+import com.logica.utils.NetCompHelper;
 import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
 
@@ -170,26 +171,23 @@ public abstract class NetComp implements ILogicaComponent {
     @Override
     public void notifyNeighbors(World world) {
         LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
-        for (Orientation orientation : Orientation.ALL) {
-            Vector3i offset = orientation.getDirection();
-            Vector3i neighborPos = new Vector3i(getPosition().x + offset.x,
-                    getPosition().y + offset.y,
-                    getPosition().z + offset.z);
 
+        for (Vector3i neighborPos : getOutputs(world)) {
             BlockType bt = world.getBlockType(neighborPos);
 
-            LogicaLogger.debug("Notifying neighbor at position: " + neighborPos
-                    + " direction: " + orientation + " (world-space)");
-
+            // 1. Direct Notification
             if (LogicaConstants.isLogicaComponent(bt)) {
                 ILogicaComponent neighbor = nm.getComponentAt(neighborPos);
                 if (neighbor == null) {
                     neighbor = nm.createComponentForId(neighborPos, bt.getId(), world);
                 }
-
                 if (neighbor != null) {
                     nm.enqueueUpdate(neighbor);
                 }
+            }
+            // 2. Through-Block Notification (Powering a solid block powers its neighbors)
+            else if (canProvidePowerThroughBlock(neighborPos) && NetCompHelper.isBlockSolid(bt)) {
+                NetCompHelper.notifyIndirectNeighbors(world, neighborPos, getPosition());
             }
         }
     }

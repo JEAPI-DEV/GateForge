@@ -6,6 +6,7 @@ import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
+import com.logica.network.LogicaNetworkManager;
 import com.logica.utils.LogicaLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
@@ -43,6 +44,7 @@ public class LogicaPlaceEventSystem extends EntityEventSystem<EntityStore, Place
                     return;
                 String id = bt.getId();
                 if (LogicaConstants.isLogicaComponent(bt)) {
+                    if (LogicaNetworkManager.getInstance().getComponentAt(targetPos) != null) return;
                     LogicaLogger.debug("[GateForge] Block placed: " + id
                             + " at (" + x + ", " + y + ", " + z + ")");
                     LogicaEventListener listener = LogicaMod.getInstance().getEventListener();

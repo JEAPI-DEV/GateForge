@@ -7,9 +7,6 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.core.NeighborScanner;
 import com.logica.components.core.NetComp;
 import com.logica.components.core.PowerProvider;
-import com.logica.components.core.ILogicaComponent;
-import com.logica.network.LogicaNetworkManager;
-import com.logica.utils.NetCompHelper;
 import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
 import com.logica.workarounds.LogicaBlockAccessor;
@@ -56,49 +53,14 @@ public class Lever extends PowerProvider {
 
     @Override
     public boolean canProvidePowerThroughBlock(Vector3i neighborPos) {
-        return isProvidingPowerTo(neighborPos);
+
+        if (neighborPos == null) return false;
+        int dx = Math.abs(neighborPos.x - getPosition().x);
+        int dy = Math.abs(neighborPos.y - getPosition().y);
+        int dz = Math.abs(neighborPos.z - getPosition().z);
+        return (dx + dy + dz) == 1;
     }
 
-    @Override
-    public void notifyNeighbors(World world) {
-        super.notifyNeighbors(world);
-
-        // Notify ALL adjacent solid blocks (Through-Block notification)
-        // Since we can't rely on Rotation to detect Floor/Wall placement,
-        // we notify any solid block we are touching.
-        LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
-
-        for (Orientation o : Orientation.ALL) {
-            Vector3i offset = o.getDirection();
-            Vector3i adjacentPos = new Vector3i(getPosition().x + offset.x, getPosition().y + offset.y,
-                    getPosition().z + offset.z);
-            BlockType adjacentBlock = world.getBlockType(adjacentPos);
-
-            if (NetCompHelper.isBlockSolid(adjacentBlock)) {
-                for (Orientation subDir : Orientation.ALL) {
-                    Vector3i subOffset = subDir.getDirection();
-                    Vector3i target = new Vector3i(adjacentPos.x + subOffset.x, adjacentPos.y + subOffset.y,
-                            adjacentPos.z + subOffset.z);
-
-                    if (target.equals(getPosition()))
-                        continue;
-
-                    ILogicaComponent neighbor = nm.getComponentAt(target);
-                    if (neighbor != null) {
-                        nm.enqueueUpdate(neighbor);
-                    } else {
-                        BlockType t = world.getBlockType(target);
-                        if (LogicaConstants.isLogicaComponent(t)) {
-                            neighbor = nm.createComponentForId(target, t.getId(), world);
-                            if (neighbor != null) {
-                                nm.enqueueUpdate(neighbor);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     @Override
     public List<Vector3i> getInputs(World world) {

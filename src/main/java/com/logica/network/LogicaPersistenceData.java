@@ -7,6 +7,7 @@ import com.hypixel.hytale.component.Resource;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.logica.components.core.ILogicaComponent;
+import com.logica.components.core.NetComp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,15 @@ public class LogicaPersistenceData implements Resource<EntityStore> {
                         int x = Integer.parseInt(parts[0]);
                         int y = Integer.parseInt(parts[1]);
                         int z = Integer.parseInt(parts[2]);
-                        newMap.put(new Vector3i(x, y, z), entry.getValue());
+
+                        ILogicaComponent comp = entry.getValue();
+                        if (comp != null) {
+                            Vector3i pos = new Vector3i(x, y, z);
+                            if (comp instanceof NetComp netComp) {
+                                netComp.setPosition(pos);
+                            }
+                            newMap.put(pos, comp);
+                        }
                     } catch (NumberFormatException ignored) {
                     }
                 }

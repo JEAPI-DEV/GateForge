@@ -41,6 +41,8 @@ public class LogicaBreakEventSystem extends EntityEventSystem<EntityStore, Break
 
             if (LogicaConstants.isLogicaComponent(bt)) {
                 world.execute(() -> {
+                    BlockType current = world.getBlockType(x, y, z);
+                    if (current != null && current.getId().equals(id)) return;
                     LogicaLogger.debug("[GateForge] Block broken: " + id + " at (" + x + ", " + y + ", " + z + ")");
                     LogicaEventListener listener = LogicaMod.getInstance().getEventListener();
                     if (listener != null)

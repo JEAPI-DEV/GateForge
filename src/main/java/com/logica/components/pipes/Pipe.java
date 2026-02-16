@@ -8,6 +8,7 @@ import com.logica.components.core.NeighborScanner;
 import com.logica.components.core.NetComp;
 import com.logica.components.core.ILogicaComponent;
 import com.logica.network.LogicaNetworkManager;
+import com.logica.utils.LogicaLogger;
 import com.logica.vars.LogicaConstants;
 import com.logica.vars.Orientation;
 
@@ -23,6 +24,14 @@ public class Pipe extends Connector {
     private String lastState = null;
     private int lastRotation = -1;
 
+    public void setLastState(String state) {
+        this.lastState = state;
+    }
+
+    public String getLastState() {
+        return this.lastState;
+    }
+
     public Pipe(Vector3i position) {
         super(position, LogicaConstants.BlockId.PIPE);
     }
@@ -34,6 +43,8 @@ public class Pipe extends Connector {
 
     @Override
     public void updateShape(World world) {
+        // LogicaLogger.debug("Pipe updateShape at " + getPosition() + " called by: "
+        // + Thread.currentThread().getStackTrace()[2]);
         List<Vector3i> connections = getConnections(world);
         ShapeResult result = PipeShapeLogic.calculateShape(getPosition(), connections);
 
@@ -255,9 +266,39 @@ public class Pipe extends Connector {
 
     @Override
     public void onRecover(World world) {
-        com.logica.utils.LogicaLogger.info(
-                "[GateForge][Pipe] rotation=%d facing=%s pos=%s",
-                state.rotation(), com.logica.vars.Orientation.fromRotationIndex(state.rotation()), getPosition());
+        // 1. If state was loaded from JSON (lastState != null), trust it immediately.
+        if (lastState != null) {
+            this.lastRotation = state.rotation();
+            LogicaLogger.debug("[GateForge][Pipe] Restored state from JSON: %s rot=%d for %s",
+                    lastState, lastRotation, getPosition());
+            return;
+        }
+
+        // 2. Optimization: Try to recover shape state from world if JSON didn't have it
+        // (Legacy)
+        try {
+            BlockType bt = world.getBlockType(getPosition());
+            if (bt != null) {
+                String stateStr = bt.getStateForBlock(bt);
+                if (stateStr != null) {
+                    this.lastState = stateStr;
+                    this.lastRotation = state.rotation();
+
+                    LogicaLogger.debug(
+                            "[GateForge][Pipe] Recovered state from World: %s rot=%d for %s",
+                            stateStr, lastRotation, getPosition());
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            LogicaLogger.warn("[GateForge][Pipe] Failed to recover state for %s: %s", getPosition(),
+                    e.getMessage());
+        }
+
+        // 3. Fallback: Recalculate if all recovery failed
+        LogicaLogger.info(
+                "[GateForge][Pipe] Recalculating shape: rotation=%d facing=%s pos=%s",
+                state.rotation(), Orientation.fromRotationIndex(state.rotation()), getPosition());
         updateShape(world);
     }
 
@@ -294,13 +335,9 @@ public class Pipe extends Connector {
 
                 if (neighbor != null) {
                     if (neighbor instanceof Pipe pipe) {
-                        // Instant propagation: Recurse immediately
-                        // Update logical state
                         pipe.updateOutput(world, this);
-                        // Update visual shape
-                        pipe.updateShape(world);
+
                     } else {
-                        // Gates/Lamps: Queue for next tick (keep delay)
                         nm.enqueueUpdate(neighbor);
                     }
                 }
@@ -322,7 +359,7 @@ public class Pipe extends Connector {
                 if (neighbor instanceof Pipe pipe) {
                     // Instant propagation for step-ups too
                     pipe.updateOutput(world, this);
-                    pipe.updateShape(world);
+
                 } else {
                     // Should not happen due to connection rules, but safe fallback
                     nm.enqueueUpdate(neighbor);
