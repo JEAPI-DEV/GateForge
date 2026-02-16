@@ -94,7 +94,8 @@ public class LogicaNetworkManager implements LogicTicker {
         storage.put(pos, comp);
         LogicaLogger.info("[GateForge][NM] Created/Recovered " + comp.getClass().getSimpleName() + " at " + pos);
         comp.onRecover(world);
-        comp.onPlace(world);
+        // comp.onPlace(world); // Removed to prevent recursive updates during lazy
+        // loading. Called explicitly by EventListener.
         enqueueUpdate(comp);
         return comp;
     }

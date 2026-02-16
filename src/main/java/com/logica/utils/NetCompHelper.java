@@ -7,6 +7,9 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.logica.components.misc.ComponentState;
 import com.logica.vars.LogicaConstants;
 import com.logica.workarounds.LogicaBlockAccessor;
+import com.logica.components.core.ILogicaComponent;
+import com.logica.network.LogicaNetworkManager;
+import com.logica.vars.Orientation;
 
 public class NetCompHelper {
     public static boolean samePos(Vector3i a, Vector3i b) {
@@ -46,6 +49,30 @@ public class NetCompHelper {
             }
         } catch (Exception e) {
             LogicaLogger.warn("[GateForge][Gate] Error in BlockState Handler: " + e);
+        }
+    }
+
+    public static void notifyIndirectNeighbors(World world, Vector3i blockPos, Vector3i ignoredSource) {
+        LogicaNetworkManager nm = LogicaNetworkManager.getInstance();
+        for (Orientation subDir : Orientation.ALL) {
+            Vector3i subOffset = subDir.getDirection();
+            Vector3i target = new Vector3i(blockPos.x + subOffset.x, blockPos.y + subOffset.y,
+                    blockPos.z + subOffset.z);
+
+            if (target.equals(ignoredSource)) continue;
+
+            ILogicaComponent indirectNeighbor = nm.getComponentAt(target);
+            if (indirectNeighbor != null) {
+                nm.enqueueUpdate(indirectNeighbor);
+            } else {
+                BlockType t = world.getBlockType(target);
+                if (LogicaConstants.isLogicaComponent(t)) {
+                    indirectNeighbor = nm.createComponentForId(target, t.getId(), world);
+                    if (indirectNeighbor != null) {
+                        nm.enqueueUpdate(indirectNeighbor);
+                    }
+                }
+            }
         }
     }
 }

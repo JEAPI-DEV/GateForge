@@ -82,15 +82,14 @@ public class Clock extends NetComp {
 
     @Override
     public List<Vector3i> getOutputs(World world) {
-    Vector3i dir = Orientation.fromRotationIndex(state.rotation()).getDirection();
+        Vector3i dir = Orientation.fromRotationIndex(state.rotation()).getDirection();
         return List.of(new Vector3i(getPosition().x + dir.x, getPosition().y + dir.y, getPosition().z + dir.z));
     }
 
     @Override
     public boolean isProvidingPowerTo(Vector3i neighborPos) {
-        if (!isActive())
-            return false;
-    Vector3i dir = Orientation.fromRotationIndex(state.rotation()).getDirection();
+        if (!isActive()) return false;
+        Vector3i dir = Orientation.fromRotationIndex(state.rotation()).getDirection();
         Vector3i target = new Vector3i(getPosition().x + dir.x, getPosition().y + dir.y, getPosition().z + dir.z);
         return neighborPos.equals(target);
     }
@@ -102,9 +101,8 @@ public class Clock extends NetComp {
 
     @Override
     public boolean canProvideOutputTo(Vector3i neighborPos, Orientation relativeDir) {
-        if (relativeDir == null)
-            return false;
-    Vector3i dir = Orientation.fromRotationIndex(state.rotation()).getDirection();
+        if (relativeDir == null) return false;
+        Vector3i dir = Orientation.fromRotationIndex(state.rotation()).getDirection();
         return dir.equals(relativeDir.getDirection());
     }
 }

@@ -33,9 +33,10 @@ public class LogicaCodec implements Codec<ILogicaComponent> {
             reader.expect('{');
 
             String idStr = null;
-            Vector3i pos = null;
+            Vector3i pos = Vector3i.ZERO; // Default to ZERO, will be injected by PersistenceData
             boolean active = false;
             int rotation = 0;
+            String stateStr = null; // For Pipe
             int tickCount = 0;
             boolean lastClockState = false;
 
@@ -54,9 +55,11 @@ public class LogicaCodec implements Codec<ILogicaComponent> {
                         idStr = reader.readString();
                         break;
                     case "pos":
-                        // Try using Vector3i codec if available as JSON decoder, else manual
-                        // Vector3i.CODEC is a Codec, so it should have decodeJson default or explicit
+                        // Optional: Read pos if present (legacy support), but usually ignored now
                         pos = Vector3i.CODEC.decodeJson(reader, extraInfo);
+                        break;
+                    case "state":
+                        stateStr = reader.readString();
                         break;
                     case "active":
                         active = reader.readBooleanValue();
@@ -91,7 +94,7 @@ public class LogicaCodec implements Codec<ILogicaComponent> {
             }
             reader.read(); // '}'
 
-            if (idStr == null || pos == null) {
+            if (idStr == null) {
                 return null;
             }
 
@@ -102,12 +105,14 @@ public class LogicaCodec implements Codec<ILogicaComponent> {
             }
 
             ILogicaComponent comp = createComponent(id, pos);
-            if (comp == null)
-                return null;
 
             if (comp instanceof NetComp netComp) {
                 netComp.setActive(active);
                 netComp.setRotation(rotation);
+            }
+
+            if (comp instanceof Pipe pipe && stateStr != null) {
+                pipe.setLastState(stateStr);
             }
 
             if (comp instanceof Clock clock) {
@@ -118,8 +123,10 @@ public class LogicaCodec implements Codec<ILogicaComponent> {
             return comp;
 
         } catch (Exception e) {
-            LogicaLogger.error("LogicaCodec.decodeJson failed: " + e.getMessage());
-            throw new java.io.IOException(e);
+            LogicaLogger.error("LogicaCodec.decodeJson failed for component: " + e.getMessage());
+            // Return null to indicate failure for this specific component,
+            // preventing the entire file load from failing.
+            return null;
         }
     }
 
@@ -146,13 +153,14 @@ public class LogicaCodec implements Codec<ILogicaComponent> {
                 return null;
             }
 
-            Vector3i pos = Vector3i.CODEC.decode(doc.get("pos"), extraInfo);
+            Vector3i pos = Vector3i.ZERO;
+            if (doc.containsKey("pos")) {
+                pos = Vector3i.CODEC.decode(doc.get("pos"), extraInfo);
+            }
             if (pos == null)
-                return null;
+                pos = Vector3i.ZERO;
 
             ILogicaComponent comp = createComponent(id, pos);
-            if (comp == null)
-                return null;
 
             if (comp instanceof NetComp netComp) {
                 if (doc.containsKey("active")) {
@@ -161,6 +169,10 @@ public class LogicaCodec implements Codec<ILogicaComponent> {
                 if (doc.containsKey("rotation")) {
                     netComp.setRotation(doc.getInt32("rotation").getValue());
                 }
+            }
+
+            if (comp instanceof Pipe pipe && doc.containsKey("state")) {
+                pipe.setLastState(doc.getString("state").getValue());
             }
 
             if (comp instanceof Clock clock && doc.containsKey("tickCount")) {
@@ -182,7 +194,8 @@ public class LogicaCodec implements Codec<ILogicaComponent> {
     public BsonValue encode(ILogicaComponent component, ExtraInfo extraInfo) {
         BsonDocument doc = new BsonDocument();
         doc.put("id", new BsonString(component.getBlockId().id()));
-        doc.put("pos", Vector3i.CODEC.encode(component.getPosition(), extraInfo));
+        if (component instanceof Pipe pipe && pipe.getLastState() != null)
+            doc.put("state", new BsonString(pipe.getLastState()));
 
         if (component instanceof NetComp netComp) {
             doc.put("active", new BsonBoolean(netComp.isActive()));
@@ -200,38 +213,23 @@ public class LogicaCodec implements Codec<ILogicaComponent> {
     }
 
     private ILogicaComponent createComponent(LogicaConstants.BlockId id, Vector3i pos) {
-        switch (id) {
-            case PIPE:
-                return new Pipe(pos);
-            case GATE_AND:
-                return new AndGate(pos);
-            case GATE_OR:
-                return new OrGate(pos);
-            case GATE_NOT:
-                return new NotGate(pos);
-            case GATE_NAND:
-                return new NANDGate(pos);
-            case GATE_NOR:
-                return new NORGate(pos);
-            case GATE_XOR:
-                return new XORGate(pos);
-            case GATE_BUFFER:
-                return new BufferGate(pos);
-            case COMP_DFF:
-                return new DFF(pos);
-            case COMP_CLOCK:
-                return new Clock(pos);
-            case CONSUMER_LAMP:
-                return new Lamp(pos);
-            case CONSUMER_PISTON:
-            case CONSUMER_STICKY_PISTON: // Treating sticky as normal for now or separate class if needed
-                return new Piston(pos);
-            case PROVIDER_LEVER:
-                return new Lever(pos);
-            case PROVIDER_PRESSURE_PLATE:
-                return new PressurePlate(pos);
-            default:
-                return null;
-        }
+        return switch (id) {
+            case PIPE -> new Pipe(pos);
+            case GATE_AND -> new AndGate(pos);
+            case GATE_OR -> new OrGate(pos);
+            case GATE_NOT -> new NotGate(pos);
+            case GATE_NAND -> new NANDGate(pos);
+            case GATE_NOR -> new NORGate(pos);
+            case GATE_XOR -> new XORGate(pos);
+            case GATE_BUFFER -> new BufferGate(pos);
+            case COMP_DFF -> new DFF(pos);
+            case COMP_CLOCK -> new Clock(pos);
+            case CONSUMER_LAMP -> new Lamp(pos);
+            case CONSUMER_PISTON,
+                    CONSUMER_STICKY_PISTON -> // Treating sticky as normal for now or separate class if needed
+                new Piston(pos);
+            case PROVIDER_LEVER -> new Lever(pos);
+            case PROVIDER_PRESSURE_PLATE -> new PressurePlate(pos);
+        };
     }
 }

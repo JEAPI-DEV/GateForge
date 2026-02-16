@@ -16,8 +16,8 @@ public class LogicaEventListener {
     public void onBlockPlace(World world, Vector3i pos, String blockId) {
         try {
             ILogicaComponent comp = networkManager.createComponentForId(pos, blockId, world);
-            if (comp == null)
-                return;
+            if (comp == null) return;
+            comp.onPlace(world);
         } catch (Exception e) {
             LogicaLogger.warn("[GateForge] Problem with the Eventlistener: " + e);
         }
@@ -25,8 +25,7 @@ public class LogicaEventListener {
 
     public void onBlockBreak(World world, Vector3i pos) {
         ILogicaComponent comp = networkManager.getComponentAt(pos);
-        if (comp != null)
-            comp.onBreak(world);
+        if (comp != null) comp.onBreak(world);
         networkManager.removeComponent(comp);
 
         for (Vector3i neighborPos : NeighborScanner.sixWay(pos)) {
