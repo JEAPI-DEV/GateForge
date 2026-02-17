@@ -203,18 +203,23 @@
     "PlayerAnimationsId": "Block",
     "MaxStack": 64,
     "Recipe": {
-            "TimeSeconds": 0,
-            "OutputQuantity": 8,
-            "Input": [
-                { "ItemId": "Ingredient_Bar_Iron", "Quantity": 1 }
-            ],
-            "BenchRequirement": [
-                {
-                    "Type": "Crafting",
-                    "Id": "Workbench",
-                    "Categories": [ "Workbench_Tinkering" ],
-                    "RequiredTierLevel": 1
-                }
-            ]
-        }
+        "TimeSeconds": 0,
+        "OutputQuantity": 8,
+        "Input": [
+            {
+                "ItemId": "Ingredient_Bar_Iron",
+                "Quantity": 1
+            }
+        ],
+        "BenchRequirement": [
+            {
+                "Type": "Crafting",
+                "Id": "GateForgeBench",
+                "Categories": [
+                    "GateForge_General"
+                ],
+                "RequiredTierLevel": 1
+            }
+        ]
+    }
 }

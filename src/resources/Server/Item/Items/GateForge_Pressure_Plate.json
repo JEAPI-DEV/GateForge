@@ -20,7 +20,11 @@
         "State": {
             "Definitions": {
                 "Active": {
-                    "Translation": [0, -0.05, 0]
+                    "Translation": [
+                        0,
+                        -0.05,
+                        0
+                    ]
                 }
             }
         }
@@ -32,13 +36,18 @@
         "TimeSeconds": 0,
         "OutputQuantity": 1,
         "Input": [
-            { "ItemId": "Rock_Stone_Cobble", "Quantity": 2 }
+            {
+                "ItemId": "Rock_Stone_Cobble",
+                "Quantity": 2
+            }
         ],
         "BenchRequirement": [
             {
                 "Type": "Crafting",
-                "Id": "Workbench",
-                "Categories": [ "Workbench_Tinkering" ],
+                "Id": "GateForgeBench",
+                "Categories": [
+                    "GateForge_General"
+                ],
                 "RequiredTierLevel": 1
             }
         ]

@@ -9,7 +9,7 @@
     }
   ],
   "Website": "https://github.com/JEAPI-DEV/GateForge",
-  "ServerVersion": "*",
+  "ServerVersion": "2026.02.17-255364b8e",
   "OptionalDependencies": {},
   "DisabledByDefault": false,
   "Main": "com.logica.LogicaMod",

@@ -38,14 +38,22 @@
         "TimeSeconds": 0,
         "OutputQuantity": 1,
         "Input": [
-            { "ItemId": "gateforge_piston", "Quantity": 1 },
-            { "ItemId": "Ingredient_Tree_Sap", "Quantity": 1 }
+            {
+                "ItemId": "GateForge_Piston",
+                "Quantity": 1
+            },
+            {
+                "ItemId": "Ingredient_Tree_Sap",
+                "Quantity": 1
+            }
         ],
         "BenchRequirement": [
             {
                 "Type": "Crafting",
-                "Id": "Workbench",
-                "Categories": [ "Workbench_Tinkering" ],
+                "Id": "GateForgeBench",
+                "Categories": [
+                    "GateForge_General"
+                ],
                 "RequiredTierLevel": 1
             }
         ]
