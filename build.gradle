@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.logica'
-version = '0.1.0'
+version = '1.0.3'
 
 repositories {
     mavenCentral()
@@ -43,7 +43,7 @@ dependencies {
     // JSR305 annotations (@Nonnull, @Nullable)
     compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
     implementation 'com.google.code.gson:gson:2.10.1'
-    implementation fileTree(dir: 'libs', includes: ['*.jar'])
+    // implementation fileTree(dir: 'libs', includes: ['*.jar']) // Removed to prevent bundling HytaleServer.jar
     
     // JUnit 5 for testing
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
@@ -76,7 +76,7 @@ java {
 shadowJar {
     archiveClassifier.set('')
     destinationDirectory = file('server/mods')
-    archiveFileName = 'GateForge.jar'
+    archiveFileName = "GateForge_${version.replace('.', '_')}.jar"
     // Exclude server classes from the final JAR
     dependencies {
         exclude(dependency { it.moduleGroup == 'com.hypixel' })

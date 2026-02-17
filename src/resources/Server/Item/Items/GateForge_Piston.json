@@ -33,15 +33,26 @@
         "TimeSeconds": 0,
         "OutputQuantity": 1,
         "Input": [
-            { "ItemId": "Rock_Stone_Cobble", "Quantity": 5 },
-            { "ItemId": "Ingredient_Bar_Copper", "Quantity": 1 },
-            { "ItemId": "Wood_Hardwood_Planks", "Quantity": 3 }
+            {
+                "ItemId": "Rock_Stone_Cobble",
+                "Quantity": 5
+            },
+            {
+                "ItemId": "Ingredient_Bar_Copper",
+                "Quantity": 1
+            },
+            {
+                "ItemId": "Wood_Hardwood_Planks",
+                "Quantity": 3
+            }
         ],
         "BenchRequirement": [
             {
                 "Type": "Crafting",
-                "Id": "Workbench",
-                "Categories": [ "Workbench_Tinkering" ],
+                "Id": "GateForgeBench",
+                "Categories": [
+                    "GateForge_General"
+                ],
                 "RequiredTierLevel": 1
             }
         ]

@@ -27,14 +27,22 @@
         "TimeSeconds": 0,
         "OutputQuantity": 1,
         "Input": [
-            { "ItemId": "Ingredient_Bar_Copper", "Quantity": 2 },
-            { "ItemId": "Rock_Stone_Cobble", "Quantity": 2 }
+            {
+                "ItemId": "Ingredient_Bar_Copper",
+                "Quantity": 2
+            },
+            {
+                "ItemId": "Rock_Stone_Cobble",
+                "Quantity": 2
+            }
         ],
         "BenchRequirement": [
             {
                 "Type": "Crafting",
-                "Id": "Workbench",
-                "Categories": [ "Workbench_Tinkering" ],
+                "Id": "GateForgeBench",
+                "Categories": [
+                    "GateForge_Gates"
+                ],
                 "RequiredTierLevel": 1
             }
         ]

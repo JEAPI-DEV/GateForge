@@ -1,9 +1,9 @@
 {
   "TranslationProperties": {
-    "Name": "server.items.Bench_Alchemy.name",
-    "Description": "server.items.Bench_Alchemy.description"
+    "Name": "GateForge Bench",
+    "Description": "A workbench for crafting logic components."
   },
-  "Icon": "Icons/ItemsGenerated/Bench_Alchemy.png",
+  "Icon": "Icons/Items/gateforge_bench.png",
   "Categories": [
     "Furniture.Benches"
   ],
@@ -11,20 +11,16 @@
     "TimeSeconds": 3,
     "Input": [
       {
-        "ResourceTypeId": "Rock",
-        "Quantity": 20
+        "ItemId": "Ingredient_Bar_Gold",
+        "Quantity": 2
       },
       {
-        "ItemId": "Ingredient_Bar_Gold",
+        "ItemId": "Ingredient_Bar_Iron",
         "Quantity": 5
       },
       {
-        "ItemId": "Ingredient_Sac_Venom",
-        "Quantity": 10
-      },
-      {
-        "ItemId": "Ingredient_Bone_Fragment",
-        "Quantity": 10
+        "ItemId": "Rock_Stone_Cobble",
+        "Quantity": 2
       }
     ],
     "BenchRequirement": [
@@ -34,7 +30,7 @@
         "Categories": [
           "Workbench_Crafting"
         ],
-        "RequiredTierLevel": 2
+        "RequiredTierLevel": 1
       }
     ]
   },
@@ -42,10 +38,10 @@
     "Material": "Solid",
     "DrawType": "Model",
     "Opacity": "Transparent",
-    "CustomModel": "Blocks/Benches/Alchemy.blockymodel",
+    "CustomModel": "Blocks/Bench/GateForge.blockymodel",
     "CustomModelTexture": [
       {
-        "Texture": "Blocks/Benches/Alchemy_Texture.png",
+        "Texture": "Blocks/Bench/GateForge_Texture.png",
         "Weight": 1
       }
     ],
@@ -60,49 +56,20 @@
       "BenchUpgradeCompletedSoundEventId": "SFX_Workbench_Upgrade_Complete_Default",
       "Categories": [
         {
-          "Id": "Alchemy_Potions",
-          "Icon": "Icons/CraftingCategories/Alchemy/Combat_Potions.png",
-          "Name": "server.benchCategories.combatPotions"
+          "Id": "GateForge_General",
+          "Icon": "Icons/CraftingCategories/GateForge/gateforge_lever.png",
+          "Name": "GateForge General"
         },
         {
-          "Id": "Alchemy_Potions_Misc",
-          "Icon": "Icons/CraftingCategories/Alchemy/Misc_Potions.png",
-          "Name": "server.benchCategories.miscPotions"
-        },
-        {
-          "Id": "Alchemy_Bombs",
-          "Icon": "Icons/CraftingCategories/Alchemy/Bombs.png",
-          "Name": "server.benchCategories.bombs"
+          "Id": "GateForge_Gates",
+          "Icon": "Icons/CraftingCategories/GateForge/gateforge_gate_and.png",
+          "Name": "Logic Gates"
         }
       ],
-      "Id": "Alchemybench",
+      "Id": "GateForgeBench",
       "TierLevels": [
         {
-          "CraftingTimeReductionModifier": 0.0,
-          "UpgradeRequirement": {
-            "Material": [
-              {
-                "ItemId": "Ingredient_Bar_Silver",
-                "Quantity": 20
-              },
-              {
-                "ItemId": "Ingredient_Bar_Gold",
-                "Quantity": 10
-              },
-              {
-                "ItemId": "Ingredient_Powder_Boom",
-                "Quantity": 10
-              },
-              {
-                "ItemId": "Ingredient_Bone_Fragment",
-                "Quantity": 50
-              }
-            ],
-            "TimeSeconds": 3
-          }
-        },
-        {
-          "CraftingTimeReductionModifier": 0.3
+          "CraftingTimeReductionModifier": 0.0
         }
       ]
     },
@@ -110,11 +77,11 @@
       "Id": "crafting",
       "Definitions": {
         "CraftCompleted": {
-          "CustomModelAnimation": "Blocks/Benches/Alchemy_Crafting.blockyanim",
+          "CustomModelAnimation": "Blocks/Bench/GateForge_Crafting.blockyanim",
           "Looping": true
         },
         "CraftCompletedInstant": {
-          "CustomModelAnimation": "Blocks/Benches/Alchemy_Crafting.blockyanim"
+          "CustomModelAnimation": "Blocks/Bench/GateForge_Crafting.blockyanim"
         }
       }
     },

@@ -45,15 +45,26 @@
         "TimeSeconds": 0,
         "OutputQuantity": 1,
         "Input": [
-            { "ItemId": "Soil_Sand", "Quantity": 1 },
-            { "ItemId": "Ingredient_Bar_Copper", "Quantity": 1 },
-            { "ItemId": "Ingredient_Fibre", "Quantity": 1 }
+            {
+                "ItemId": "Soil_Sand",
+                "Quantity": 1
+            },
+            {
+                "ItemId": "Ingredient_Bar_Copper",
+                "Quantity": 1
+            },
+            {
+                "ItemId": "Ingredient_Fibre",
+                "Quantity": 1
+            }
         ],
         "BenchRequirement": [
             {
                 "Type": "Crafting",
-                "Id": "Workbench",
-                "Categories": [ "Workbench_Tinkering" ],
+                "Id": "GateForgeBench",
+                "Categories": [
+                    "GateForge_General"
+                ],
                 "RequiredTierLevel": 1
             }
         ]
